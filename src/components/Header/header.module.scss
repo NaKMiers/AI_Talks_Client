@@ -1,0 +1,42 @@
+.header {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   text-align: center;
+   width: 100%;
+   font-size: 1.6rem;
+   font-weight: 600;
+   z-index: 1;
+   max-width: 48.75rem;
+}
+
+.menuBtn {
+   display: flex;
+   align-items: center;
+   justify-content: flex-start;
+   width: 4rem;
+
+   & button {
+      border: none;
+      background: none;
+      font-size: 1.6rem;
+      color: #fff;
+   }
+}
+
+.switchBtn {
+   display: flex;
+   align-items: center;
+   justify-content: flex-end;
+   width: 4rem;
+
+   & button {
+      padding: 4px 8px;
+      border: none;
+      border-radius: 16px;
+      background: linear-gradient(45deg, cyan, yellow);
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #333;
+   }
+}

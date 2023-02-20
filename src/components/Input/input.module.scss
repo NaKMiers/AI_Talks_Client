@@ -1,0 +1,31 @@
+.inputContainer {
+   display: flex;
+   align-items: center;
+   width: 100%;
+   z-index: 1;
+   max-width: 48.75rem;
+}
+
+.inputText {
+   resize: none;
+   height: 48px;
+   line-height: 16px;
+   width: 100%;
+   padding: 16px 16px;
+   font-size: 16px;
+   outline: none;
+   border: none;
+   border-radius: 1rem;
+   color: #333;
+}
+
+.sendBtn {
+   height: 100%;
+   width: 2.5rem;
+   border: none;
+   border-radius: 8px;
+   font-size: 1.5rem;
+   margin-left: 0.5rem;
+   background: none;
+   color: #fff;
+}

@@ -1,0 +1,84 @@
+* {
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+   font-family: 'Open Sans', sans-serif;
+}
+
+::-webkit-scrollbar {
+   display: none;
+}
+
+button {
+   cursor: pointer;
+   border: none;
+   outline: none;
+}
+
+label {
+   cursor: pointer;
+}
+
+select {
+   cursor: pointer;
+   border: none;
+   outline: none;
+}
+
+.app {
+   position: relative;
+   height: 100vh;
+   display: flex;
+   flex-direction: column;
+   justify-content: space-between;
+   align-items: center;
+   background: #121212;
+   padding: 1.5rem 1rem;
+   margin: auto;
+   z-index: 0;
+   color: #fff;
+}
+
+.gradient1 {
+   position: absolute;
+   width: 316px;
+   height: 238px;
+   top: 0px;
+   left: 0;
+   background: #2e86ab;
+   filter: blur(246px);
+   z-index: 0;
+}
+
+.gradient2 {
+   position: absolute;
+   width: 139px;
+   height: 353px;
+   top: 0px;
+   right: 0px;
+   background: #b8d423;
+   filter: blur(309px);
+   z-index: 0;
+}
+
+.gradient3 {
+   position: absolute;
+   width: 200px;
+   height: 238px;
+   bottom: 0px;
+   left: 0px;
+   background: #27ae60;
+   filter: blur(223px);
+   z-index: 0;
+}
+
+.gradient4 {
+   position: absolute;
+   width: 200px;
+   height: 238px;
+   bottom: 0px;
+   right: 0px;
+   background: #9b59b6;
+   filter: blur(223px);
+   z-index: 0;
+}

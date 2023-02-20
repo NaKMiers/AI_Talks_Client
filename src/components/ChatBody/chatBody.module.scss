@@ -1,0 +1,31 @@
+.body {
+   display: flex;
+   flex-direction: column;
+   align-items: flex-start;
+   gap: 1rem;
+   flex: 1;
+   width: 100%;
+   overflow-y: scroll;
+   padding: 1rem 0 3rem 0;
+   z-index: 1;
+   margin-top: 1rem;
+   max-width: 48.75rem;
+}
+
+.userMessage {
+   max-width: 20rem;
+   padding: 0.5rem 0.5rem;
+   border-radius: 0.5rem;
+   margin-left: auto;
+   border: 2px solid #fff;
+}
+
+.aiMessage {
+   width: 100%;
+   max-width: 20rem;
+   padding: 0.5rem 0.5rem;
+   border-radius: 0.5rem;
+   color: #123;
+   border: 2px solid #fff;
+   background: linear-gradient(to right, #b8d8ba, #7d9a91);
+}
