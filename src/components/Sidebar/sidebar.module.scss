@@ -1,18 +1,41 @@
 .sidebar {
-   // display: none;
+   --sidebar-padding: 1rem;
+
    position: fixed;
    top: 0;
    bottom: 0;
    left: 0;
-   right: 0;
-   max-width: 80%;
-   background: #333;
-   z-index: 1;
+   display: flex;
+   flex-direction: column;
+   width: var(--sidebar-size);
+   background: var(--sidebar-bgr);
+
+   // Tablet 768px - 1024px
+   @media screen and (max-width: 64rem) {
+      // position: fixed;
+   }
+
+   // Mobile < 768px
+   @media screen and (max-width: 48rem) {
+      left: calc(-1 * var(--sidebar-size));
+      right: 0;
+      max-width: var(--sidebar-size);
+      width: 80%;
+      opacity: 0.5;
+      transition: all 0.4s ease;
+
+      z-index: 1;
+      &.active {
+         left: 0;
+         opacity: 1;
+      }
+   }
 }
 
 .closeBtn {
+   display: none;
    position: absolute;
-   top: 0;
+   top: 1rem;
    right: 0;
    width: 3rem;
    height: 3rem;
@@ -20,16 +43,39 @@
    background: none;
    border: none;
    color: #fff;
+
+   // Mobile < 768px
+   @media screen and (max-width: 48rem) {
+      display: block;
+   }
 }
 
 .title {
+   display: none;
+   padding: 1rem var(--sidebar-padding);
    line-height: 3rem;
    font-size: 1.6rem;
    font-weight: 800;
+
+   // Mobile < 768px
+   @media screen and (max-width: 48rem) {
+      display: block;
+   }
 }
 
+// Body
 .sidebarBody {
+   display: flex;
+   flex-direction: column;
+   gap: 0.5rem;
    height: 100%;
+   padding: var(--sidebar-padding);
+   padding-top: 2rem;
+
+   // Mobile < 768px
+   @media screen and (max-width: 48rem) {
+      padding-top: var(--sidebar-padding);
+   }
 }
 
 .label {
@@ -38,59 +84,200 @@
 }
 
 .selectModel {
-   width: 80%;
+   max-width: 16rem;
+   width: 100%;
    font-size: 1rem;
-   border-radius: 0.5rem;
+   border-radius: 0.4rem;
    padding: 0.8rem 0.5rem;
 }
 
+.groupByWrap {
+   display: flex;
+   justify-content: flex-end;
+   max-width: 16rem;
+   margin-bottom: 1.5rem;
+
+   & i {
+      font-size: 0.8rem;
+      color: #2196f3;
+      margin-right: 0.1rem;
+   }
+
+   & select {
+      border-radius: 1rem;
+      padding: 0 0.2rem;
+   }
+}
+
 .themeWrap {
+   --theme-gap: 0.5rem;
+   max-width: 16rem;
    width: 100%;
-   max-height: 10rem;
-   padding: 1rem;
-   border-radius: 0.5rem;
-   background: #fff;
+   max-height: 10.8rem;
    overflow-y: scroll;
+   margin-bottom: 1.5rem;
+
+   // Mobile < 280px
+   @media screen and (max-width: 17.5rem) {
+      max-height: 12rem;
+   }
 }
 
 .sampleTheme {
+   display: inline-block;
+   --theme-size: calc((100% - 2 * var(--theme-gap)) / 3);
    position: relative;
-   height: 2.5rem;
-   width: 100%;
+   width: var(--theme-size);
+   padding-top: var(--theme-size);
    background-color: #ccc;
-   border-radius: 0.5rem;
+   border-radius: 50%;
+   transition: all 0.3s ease-in-out;
+   cursor: pointer;
+
+   &:hover {
+      opacity: 0.8;
+      border-radius: 0.2rem;
+   }
 
    & > span {
+      font-size: 0.7rem;
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
    }
 
-   &:not(:last-child) {
-      margin-bottom: 0.7rem;
+   &:nth-child(3n-1) {
+      margin: 0 var(--theme-gap);
+   }
+   &:nth-child(n + 4) {
+      margin-top: calc(var(--theme-gap) - 5px);
+   }
+
+   // Mobile < 280px
+   @media screen and (max-width: 17.5rem) {
+      --theme-size: calc((100% - var(--theme-gap)) / 2);
+      margin: 0 !important;
+
+      &:nth-child(odd) {
+         margin-right: var(--theme-gap) !important;
+      }
+
+      &:nth-child(n + 3) {
+         margin-top: calc(var(--theme-gap) - 5px) !important;
+      }
    }
 }
 
+.maxTokenWrap {
+   --amount-height: 2.5rem;
+
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   gap: 0.3rem;
+   max-width: 100%;
+   width: 14rem;
+   height: var(--amount-height);
+   border-radius: 0.2rem;
+   overflow: hidden;
+   margin-bottom: 1.5rem;
+}
+
+.maxTokenInput {
+   flex: 1;
+   height: 100%;
+   font-size: 1.1rem;
+   padding: 0 1rem;
+   border: none;
+   outline: none;
+   text-align: center;
+}
+
+.temperatureWrap {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   max-width: 100%;
+   width: 14rem;
+   margin-bottom: 1.5rem;
+}
+
+.temperatureInput {
+   flex: 1;
+   height: 0.6rem;
+   -webkit-appearance: none;
+   appearance: none;
+   outline: none;
+   border-radius: 1rem;
+   background: #fff;
+   cursor: pointer;
+
+   &::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 1rem;
+      height: 1rem;
+      border-radius: 50%;
+      background: #3cd5d5;
+   }
+}
+
+.temperature {
+   font-size: 1.1rem;
+   text-align: center;
+   width: 2.5rem;
+}
+
+.amountWrap {
+   --amount-height: 2.5rem;
+
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   gap: 0.3rem;
+   max-width: 100%;
+   width: 14rem;
+   height: var(--amount-height);
+   color: #333;
+   margin-bottom: 1.5rem;
+   border-radius: 0.2rem;
+   overflow: hidden;
+   font-size: 1.1rem;
+}
+
+.amount {
+   background: #fff;
+   height: var(--amount-height);
+   line-height: var(--amount-height);
+   text-align: center;
+   flex: 1;
+}
+
+.amountBtn {
+   background: rgb(60, 213, 213);
+   height: var(--amount-height);
+   width: var(--amount-height);
+   color: #fff;
+}
+
 .userBlock {
+   display: flex;
+   flex-direction: column;
+   flex-grow: 1;
    width: 100%;
-   position: absolute;
-   bottom: 0;
+   justify-content: flex-end;
 }
 
 .userWrap {
    display: flex;
    align-items: center;
    gap: 0.5rem;
+   width: 100%;
    transition: all 0.3s ease-in-out;
    border-top-left-radius: 0.5rem;
    border-bottom-left-radius: 0.5rem;
    cursor: pointer;
-
-   &:hover {
-      background-color: #eee;
-      color: #333;
-   }
 }
 
 .avatar {
@@ -116,14 +303,13 @@
 
 .collapseUserContent {
    max-height: 0;
+   overflow: hidden;
    width: 100%;
    font-size: 1rem;
    margin: 0.6rem 0 0 0rem;
    transition: all 0.3s ease-in-out;
    & div {
-      padding: 0.6rem 1rem;
-      width: 100%;
-      border-radius: 0.2rem;
+      padding: 0.6rem 0 0.6rem 1rem;
       transition: all 0.3s ease-in-out;
 
       &:hover {

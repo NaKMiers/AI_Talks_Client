@@ -1,5 +1,7 @@
 import '@fortawesome/fontawesome-free/css/all.min.css'
 import React, { useEffect, useRef } from 'react'
+import { large } from '../../data/imageData'
+import Message from '../Message'
 import styles from './chatBody.module.scss'
 
 function ChatBody() {
@@ -10,36 +12,10 @@ function ChatBody() {
    })
    return (
       <div className={styles.body}>
-         <div className={styles.userMessage}>Hello</div>
-         <div className={styles.aiMessage}>
-            awdawd is a word that has no meaning. It is sometimes used as a placeholder when someone is
-            trying to think of the right word to use. It can also be used as a filler word when someone
-            is talking and doesn't know what to say.
-         </div>
-         <div className={styles.userMessage}>Hello</div>
-         <div className={styles.aiMessage}>
-            awdawd is a word that has no meaning. It is sometimes used as a placeholder when someone is
-            trying to think of the right word to use. It can also be used as a filler word when someone
-            is talking and doesn't know what to say.
-         </div>
-         <div className={styles.userMessage}>Hello</div>
-         <div className={styles.aiMessage}>
-            awdawd is a word that has no meaning. It is sometimes used as a placeholder when someone is
-            trying to think of the right word to use. It can also be used as a filler word when someone
-            is talking and doesn't know what to say.
-         </div>
-         <div className={styles.userMessage}>Hello</div>
-         <div className={styles.aiMessage}>
-            awdawd is a word that has no meaning. It is sometimes used as a placeholder when someone is
-            trying to think of the right word to use. It can also be used as a filler word when someone
-            is talking and doesn't know what to say.
-         </div>
-         <div className={styles.userMessage}>Hello</div>
-         <div className={styles.aiMessage}>
-            awdawd is a word that has no meaning. It is sometimes used as a placeholder when someone is
-            trying to think of the right word to use. It can also be used as a filler word when someone
-            is talking and doesn't know what to say.
-         </div>
+         <Message type='ai' />
+         <Message type='user' />
+         <Message type='ai-image' data={large} />
+
          <div ref={scrollRef} className={styles.theLast} />
       </div>
    )

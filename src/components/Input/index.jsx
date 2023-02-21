@@ -22,7 +22,7 @@ function Input() {
             value={value}
          />
          <button className={styles.sendBtn}>
-            <i className='fa-solid fa-paper-plane'></i>
+            <i className='fa-solid fa-paper-plane' />
          </button>
       </div>
    )

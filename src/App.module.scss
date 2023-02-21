@@ -1,3 +1,9 @@
+:root {
+   --sidebar-size: 20rem;
+   --sidebar-bgr: #333;
+   --app-bgr: #121212;
+}
+
 * {
    margin: 0;
    padding: 0;
@@ -32,11 +38,17 @@ select {
    flex-direction: column;
    justify-content: space-between;
    align-items: center;
-   background: #121212;
+   background: var(--app-bgr);
    padding: 1.5rem 1rem;
    margin: auto;
    z-index: 0;
    color: #fff;
+   margin-left: var(--sidebar-size);
+
+   // Mobile < 768px
+   @media screen and (max-width: 48rem) {
+      margin-left: 0;
+   }
 }
 
 .gradient1 {
