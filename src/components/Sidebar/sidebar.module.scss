@@ -83,8 +83,9 @@
    font-size: 1rem;
 }
 
+// Select Models
 .selectModel {
-   max-width: 16rem;
+   max-width: calc(var(--sidebar-size) - var(--sidebar-padding));
    width: 100%;
    font-size: 1rem;
    border-radius: 0.4rem;
@@ -94,7 +95,7 @@
 .groupByWrap {
    display: flex;
    justify-content: flex-end;
-   max-width: 16rem;
+   max-width: calc(var(--sidebar-size) - var(--sidebar-padding));
    margin-bottom: 1.5rem;
 
    & i {
@@ -109,9 +110,10 @@
    }
 }
 
+// Select Themes
 .themeWrap {
    --theme-gap: 0.5rem;
-   max-width: 16rem;
+   max-width: calc(var(--sidebar-size) - var(--sidebar-padding));
    width: 100%;
    max-height: 10.8rem;
    overflow-y: scroll;
@@ -123,77 +125,52 @@
    }
 }
 
-.sampleTheme {
-   display: inline-block;
-   --theme-size: calc((100% - 2 * var(--theme-gap)) / 3);
-   position: relative;
-   width: var(--theme-size);
-   padding-top: var(--theme-size);
-   background-color: #ccc;
-   border-radius: 50%;
-   transition: all 0.3s ease-in-out;
-   cursor: pointer;
-
-   &:hover {
-      opacity: 0.8;
-      border-radius: 0.2rem;
-   }
-
-   & > span {
-      font-size: 0.7rem;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-   }
-
-   &:nth-child(3n-1) {
-      margin: 0 var(--theme-gap);
-   }
-   &:nth-child(n + 4) {
-      margin-top: calc(var(--theme-gap) - 5px);
-   }
-
-   // Mobile < 280px
-   @media screen and (max-width: 17.5rem) {
-      --theme-size: calc((100% - var(--theme-gap)) / 2);
-      margin: 0 !important;
-
-      &:nth-child(odd) {
-         margin-right: var(--theme-gap) !important;
-      }
-
-      &:nth-child(n + 3) {
-         margin-top: calc(var(--theme-gap) - 5px) !important;
-      }
-   }
-}
-
+// Max Token
 .maxTokenWrap {
-   --amount-height: 2.5rem;
+   --max-token-height: 2.5rem;
+   --max-token-gap: 0.3rem;
 
    display: flex;
    align-items: center;
    justify-content: space-between;
-   gap: 0.3rem;
+   gap: var(--max-token-gap);
    max-width: 100%;
    width: 14rem;
-   height: var(--amount-height);
+   height: var(--max-token-height);
    border-radius: 0.2rem;
    overflow: hidden;
    margin-bottom: 1.5rem;
 }
 
 .maxTokenInput {
-   flex: 1;
+   width: calc(100% - 2 * var(--max-token-height) - 2 * var(--max-token-gap));
    height: 100%;
    font-size: 1.1rem;
-   padding: 0 1rem;
+   padding: 0 0.5rem;
    border: none;
    outline: none;
    text-align: center;
+
+   &::-webkit-inner-spin-button,
+   &::-webkit-outer-spin-button {
+      appearance: none;
+      -webkit-appearance: none;
+      margin: 0;
+   }
+
+   & {
+      -moz-appearance: textfield;
+   }
 }
 
+.maxTokenBtn {
+   background: rgb(60, 213, 213);
+   height: var(--max-token-height);
+   width: var(--max-token-height);
+   color: #fff;
+}
+
+// Temperature
 .temperatureWrap {
    display: flex;
    justify-content: space-between;
@@ -229,6 +206,7 @@
    width: 2.5rem;
 }
 
+// Amount
 .amountWrap {
    --amount-height: 2.5rem;
 
@@ -259,67 +237,4 @@
    height: var(--amount-height);
    width: var(--amount-height);
    color: #fff;
-}
-
-.userBlock {
-   display: flex;
-   flex-direction: column;
-   flex-grow: 1;
-   width: 100%;
-   justify-content: flex-end;
-}
-
-.userWrap {
-   display: flex;
-   align-items: center;
-   gap: 0.5rem;
-   width: 100%;
-   transition: all 0.3s ease-in-out;
-   border-top-left-radius: 0.5rem;
-   border-bottom-left-radius: 0.5rem;
-   cursor: pointer;
-}
-
-.avatar {
-   width: 2.3rem;
-   border-radius: 0.5rem;
-}
-
-.collapseBtn {
-   width: 1rem;
-   height: 1rem;
-   background: none;
-   color: inherit;
-   font-size: 1rem;
-   transition: all 0.2s ease;
-   transform: rotate(180deg);
-   margin-left: auto;
-   margin-bottom: -3px;
-
-   &.active {
-      transform: rotate(0deg);
-   }
-}
-
-.collapseUserContent {
-   max-height: 0;
-   overflow: hidden;
-   width: 100%;
-   font-size: 1rem;
-   margin: 0.6rem 0 0 0rem;
-   transition: all 0.3s ease-in-out;
-   & div {
-      padding: 0.6rem 0 0.6rem 1rem;
-      transition: all 0.3s ease-in-out;
-
-      &:hover {
-         background: #eee;
-         cursor: pointer;
-         color: #333;
-      }
-   }
-
-   &.active {
-      max-height: 5rem;
-   }
 }

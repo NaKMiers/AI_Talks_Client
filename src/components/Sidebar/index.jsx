@@ -1,14 +1,18 @@
 import React, { useState } from 'react'
-import styles from './sidebar.module.scss'
-import themeData from '../../data/themeData'
 import { GroupByName } from '../../data/modelData'
+import themeData from '../../data/themeData'
+import SampleTheme from '../SampleTheme'
+import UserBlock from '../UserBlock'
+import styles from './sidebar.module.scss'
 
 function Sidebar({ showSidebar, setShowSidebar }) {
-   const [collapseUser, setCollapseUser] = useState(false)
    const [groupBy, setGroupBy] = useState('name')
    const [model, setModel] = useState(GroupByName[0].data[0])
    const [maxToken, setMaxToken] = useState(100)
-   const [temperature, setTemperature] = useState(0)
+   const [temperature, setTemperature] = useState(500)
+   const [changing, setChanging] = useState(false)
+
+   console.log('changing: ', changing)
 
    const [amount, setAmount] = useState(1)
    const fixedSize = ['256x256', '512x512', '1024x1024']
@@ -47,6 +51,7 @@ function Sidebar({ showSidebar, setShowSidebar }) {
          <h2 className={styles.title}>AI TALKS</h2>
 
          <div className={styles.sidebarBody}>
+            {/* Models */}
             <label className={styles.label} htmlFor='models'>
                Select Models:
             </label>
@@ -68,13 +73,14 @@ function Sidebar({ showSidebar, setShowSidebar }) {
                </select>
             </div>
 
+            {/* Max Tokens */}
             <label className={styles.label} htmlFor='max-token'>
                Max Tokens:
             </label>
             <div className={styles.maxTokenWrap}>
                <button
-                  className={styles.amountBtn}
-                  onClick={() => setMaxToken(maxToken > 1 ? maxToken - 50 : maxToken)}
+                  className={styles.maxTokenBtn}
+                  onClick={() => setMaxToken(maxToken > 50 ? maxToken - 50 : maxToken)}
                >
                   <i className='fa-solid fa-minus' />
                </button>
@@ -84,16 +90,17 @@ function Sidebar({ showSidebar, setShowSidebar }) {
                   min='1'
                   className={styles.maxTokenInput}
                   value={maxToken}
-                  onChange={e => setMaxToken(e.target.value)}
+                  onChange={e => setMaxToken(e.target.value ? e.target.value : 50)}
                />
                <button
-                  className={styles.amountBtn}
+                  className={styles.maxTokenBtn}
                   onClick={() => setMaxToken(maxToken < 1500 ? maxToken + 50 : maxToken)}
                >
                   <i className='fa-solid fa-plus' />
                </button>
             </div>
 
+            {/* Temperature */}
             <label className={styles.label} htmlFor='max-token'>
                Temperature:
             </label>
@@ -110,21 +117,22 @@ function Sidebar({ showSidebar, setShowSidebar }) {
                <span className={styles.temperature}>{Math.round(temperature / 100) / 10}</span>
             </div>
 
+            {/* Themes */}
             <label className={styles.label} htmlFor='models'>
                Select Themes:
             </label>
             <div className={styles.themeWrap}>
-               {themeData.map((data, i) => (
-                  <div
-                     key={i}
-                     className={styles.sampleTheme}
-                     style={{ background: data.bg, color: data.text }}
-                  >
-                     <span>{data.label}</span>
-                  </div>
+               {themeData.map(data => (
+                  <SampleTheme
+                     key={data.label}
+                     data={data}
+                     changing={changing}
+                     setChanging={setChanging}
+                  />
                ))}
             </div>
 
+            {/* Amount */}
             {/* <label className={styles.label} htmlFor='amount'>
                Amount:
             </label>
@@ -144,6 +152,7 @@ function Sidebar({ showSidebar, setShowSidebar }) {
                </button>
             </div> */}
 
+            {/* Size */}
             {/* <label className={styles.label} htmlFor='size'>
                Size:
             </label>
@@ -157,26 +166,7 @@ function Sidebar({ showSidebar, setShowSidebar }) {
                </button>
             </div> */}
 
-            <div className={styles.userBlock}>
-               <div className={styles.userWrap}>
-                  <img className={styles.avatar} src='https://bom.so/wJUam1' alt='avt' />
-                  <span>nakmiers</span>
-                  <button
-                     onClick={() => setCollapseUser(!collapseUser)}
-                     className={`${styles.collapseBtn} ${collapseUser && styles.active}`}
-                  >
-                     <i className='fa-solid fa-chevron-down' />
-                  </button>
-               </div>
-               <div className={`${styles.collapseUserContent} ${collapseUser && styles.active}`}>
-                  <div>
-                     <i className='fa-solid fa-gear' /> Setting
-                  </div>
-                  <div>
-                     <i className='fa-solid fa-arrow-right-from-bracket' /> Logout
-                  </div>
-               </div>
-            </div>
+            <UserBlock />
          </div>
       </div>
    )

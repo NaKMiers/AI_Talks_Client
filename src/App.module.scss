@@ -1,5 +1,5 @@
 :root {
-   --sidebar-size: 20rem;
+   --sidebar-size: 18rem;
    --sidebar-bgr: #333;
    --app-bgr: #121212;
 }
@@ -57,7 +57,6 @@ select {
    height: 238px;
    top: 0px;
    left: 0;
-   background: #2e86ab;
    filter: blur(246px);
    z-index: 0;
 }
@@ -68,7 +67,6 @@ select {
    height: 353px;
    top: 0px;
    right: 0px;
-   background: #b8d423;
    filter: blur(309px);
    z-index: 0;
 }
@@ -79,7 +77,6 @@ select {
    height: 238px;
    bottom: 0px;
    left: 0px;
-   background: #27ae60;
    filter: blur(223px);
    z-index: 0;
 }
@@ -90,7 +87,6 @@ select {
    height: 238px;
    bottom: 0px;
    right: 0px;
-   background: #9b59b6;
    filter: blur(223px);
    z-index: 0;
 }

@@ -1,0 +1,122 @@
+.sampleTheme {
+   display: inline-block;
+   --theme-size: calc((100% - 2 * var(--theme-gap)) / 3);
+   position: relative;
+   width: var(--theme-size);
+   padding-top: var(--theme-size);
+   background-color: #ccc;
+   border-radius: 50%;
+   transition: all 0.3s ease-in-out;
+   cursor: pointer;
+   user-select: none;
+
+   & > span {
+      font-size: 0.7rem;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      transition: all 0.3s ease;
+      opacity: 0.8;
+   }
+
+   &:nth-child(3n-1) {
+      margin: 0 var(--theme-gap);
+   }
+   &:nth-child(n + 4) {
+      margin-top: calc(var(--theme-gap) - 5px);
+   }
+
+   &:hover {
+      opacity: 0.8;
+      border-radius: 0.2rem;
+   }
+
+   &.disabled:active {
+      animation: pulse 0.3s ease;
+   }
+
+   &.disappear {
+      border-radius: 0.2rem;
+
+      & > span {
+         opacity: 0;
+      }
+
+      & .loading {
+         opacity: 1;
+      }
+
+      &:hover {
+         & .cancelBtn {
+            opacity: 1;
+         }
+
+         & .loading {
+            opacity: 0;
+         }
+      }
+   }
+
+   // Mobile < 280px
+   @media screen and (max-width: 17.5rem) {
+      --theme-size: calc((100% - var(--theme-gap)) / 2);
+      margin: 0 !important;
+
+      &:nth-child(odd) {
+         margin-right: var(--theme-gap) !important;
+      }
+
+      &:nth-child(n + 3) {
+         margin-top: calc(var(--theme-gap) - 5px) !important;
+      }
+   }
+}
+
+.loading {
+   position: absolute;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+   width: 2.2rem;
+   height: 2.2rem;
+   z-index: 1;
+   opacity: 0;
+   transition: all 0.3s ease;
+}
+
+.cancelBtn {
+   position: absolute;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+   width: 2.2rem;
+   height: 2.2rem;
+   font-size: 1.5rem;
+   color: #fff;
+   background: none;
+   border-radius: 50%;
+   opacity: 0;
+   transition: all 0.3s ease-in;
+   z-index: 2;
+
+   &:hover {
+      background: #fff;
+      color: #333;
+   }
+}
+
+@keyframes pulse {
+   0% {
+      transform: scale(1);
+      opacity: 1;
+   }
+   50% {
+      transform: scale(1.1);
+      opacity: 0.5;
+   }
+   100% {
+      transform: scale(1);
+      opacity: 1;
+   }
+}

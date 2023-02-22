@@ -1,0 +1,176 @@
+.authModal {
+   --input-color: #dadada;
+   --text-color: #a0a0a0;
+
+   display: none;
+   position: fixed;
+   bottom: 0;
+   left: 0;
+   width: 100vw;
+   height: 100vh;
+   background: #333;
+   border-radius: 0rem;
+   overflow: hidden;
+   z-index: 1;
+
+   &.open {
+      display: block !important;
+      animation: scaleUp 0.3s ease-in-out;
+   }
+
+   &.close {
+      animation: scaleDown 0.3s ease-in-out;
+   }
+}
+
+@keyframes scaleUp {
+   0% {
+      bottom: calc(var(--sidebar-padding) + 0.35rem);
+      left: calc(var(--sidebar-size) / 2 - 1.5rem);
+      width: 3rem;
+      height: 0.15rem;
+      background: #333;
+      border-radius: 0.3rem;
+   }
+   100% {
+      bottom: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: #333;
+      border-radius: 0;
+   }
+}
+
+@keyframes scaleDown {
+   0% {
+      bottom: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: #333;
+      border-radius: 0;
+   }
+   100% {
+      bottom: calc(var(--sidebar-padding) + 0.35rem);
+      left: calc(var(--sidebar-size) / 2 - 1.5rem);
+      width: 3rem;
+      height: 0.15rem;
+      background: #333;
+      border-radius: 0.3rem;
+   }
+}
+
+.authWrap {
+   position: absolute;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+
+   max-width: 22rem;
+   width: 100%;
+   max-height: 40rem;
+   height: 100%;
+   padding: 2rem 1.5rem;
+
+   background: #fff;
+   color: #333;
+   border-radius: 0.3rem;
+   overflow: hidden;
+}
+
+.heading {
+   font-size: 1.6rem;
+   margin-bottom: 1rem;
+}
+
+.form {
+   display: flex;
+   flex-direction: column;
+   width: 100%;
+}
+
+.label {
+   font-size: 0.8rem;
+   font-weight: bold;
+   margin-top: 1.5rem;
+   color: var(--text-color);
+}
+
+.inputWrap {
+   position: relative;
+   width: 100%;
+}
+
+.input {
+   width: 100%;
+   border: none;
+   outline: none;
+   font-size: 0.9rem;
+   padding: 0.8rem 0.5rem 0.8rem 2.2rem;
+   border-bottom: 2px solid var(--input-color);
+   color: #333;
+
+   &::placeholder {
+      color: var(--input-color);
+   }
+}
+
+.icon {
+   position: absolute;
+   top: 50%;
+   left: 0.3rem;
+   transform: translateY(-50%);
+   color: var(--input-color);
+}
+
+.forgotPass {
+   text-align: right;
+   color: var(--text-color);
+   margin-top: 0.7rem;
+   font-size: 0.9rem;
+}
+
+.authBtn {
+   font-weight: bold;
+   background: #333;
+   color: #fff;
+   border-radius: 1rem;
+   padding: 0.7rem 0;
+   margin-top: 2rem;
+   transition: all 0.3s ease;
+
+   &:hover {
+      background: #dadada;
+      color: #333;
+   }
+}
+
+.subHeading {
+   color: var(--text-color);
+   font-size: 0.8rem;
+   margin: 3rem 0 1.4rem 0;
+}
+
+.socialLoginWrap {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   gap: 0.8rem;
+
+   margin-bottom: auto;
+   & img {
+      width: 2.2rem;
+      cursor: pointer;
+   }
+}
+
+.subBtn {
+   background: none;
+   color: #333;
+   font-size: 0.9rem;
+}
