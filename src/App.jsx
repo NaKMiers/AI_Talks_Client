@@ -10,7 +10,7 @@ import themeData from './data/themeData'
 
 function App() {
    const { user } = useSelector(state => state.userReducer)
-   const [showSidebar, setShowSidebar] = useState(false)
+   const [showSidebar, setShowSidebar] = useState(true)
 
    const theme = themeData[10]
 

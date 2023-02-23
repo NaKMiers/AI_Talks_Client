@@ -1,10 +1,14 @@
-import types from '../../constants/actionType'
+import types from '../../constants/userAction'
 
 const initState = JSON.parse(localStorage.getItem('user')) || { user: null, token: '' }
 
 function userReducer(state = initState, action) {
    switch (action.type) {
       case types.LOGIN:
+         localStorage.setItem('user', JSON.stringify(action.payload))
+         return action.payload
+
+      case types.REGISTER:
          localStorage.setItem('user', JSON.stringify(action.payload))
          return action.payload
 

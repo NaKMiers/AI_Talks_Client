@@ -110,21 +110,6 @@
    }
 }
 
-// Select Themes
-.themeWrap {
-   --theme-gap: 0.5rem;
-   max-width: calc(var(--sidebar-size) - var(--sidebar-padding));
-   width: 100%;
-   max-height: 10.8rem;
-   overflow-y: scroll;
-   margin-bottom: 1.5rem;
-
-   // Mobile < 280px
-   @media screen and (max-width: 17.5rem) {
-      max-height: 12rem;
-   }
-}
-
 // Max Token
 .maxTokenWrap {
    --max-token-height: 2.5rem;
@@ -135,7 +120,6 @@
    justify-content: space-between;
    gap: var(--max-token-gap);
    max-width: 100%;
-   width: 14rem;
    height: var(--max-token-height);
    border-radius: 0.2rem;
    overflow: hidden;
@@ -181,7 +165,7 @@
 }
 
 .temperatureInput {
-   flex: 1;
+   width: 100%;
    height: 0.6rem;
    -webkit-appearance: none;
    appearance: none;
@@ -202,7 +186,7 @@
 
 .temperature {
    font-size: 1.1rem;
-   text-align: center;
+   text-align: right;
    width: 2.5rem;
 }
 
@@ -215,7 +199,6 @@
    justify-content: space-between;
    gap: 0.3rem;
    max-width: 100%;
-   width: 14rem;
    height: var(--amount-height);
    color: #333;
    margin-bottom: 1.5rem;
@@ -237,4 +220,30 @@
    height: var(--amount-height);
    width: var(--amount-height);
    color: #fff;
+}
+
+.resetBtn {
+   position: relative;
+   display: inline-block;
+   align-self: center;
+   height: 2rem;
+   color: #fff;
+   background: none;
+   padding: 0 0.5rem;
+
+   &:after {
+      content: '';
+      position: absolute;
+      bottom: 0.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0rem;
+      height: 0.1rem;
+      background: #fff;
+      transition: all 0.2s ease-in;
+   }
+
+   &:hover:after {
+      width: 2.2rem;
+   }
 }

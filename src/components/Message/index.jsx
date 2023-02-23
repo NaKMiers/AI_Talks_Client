@@ -8,7 +8,15 @@ function Message({ type, data }) {
       <div className={styles.aiImage} onClick={() => setShowTime(!showTime)}>
          <div>
             {data.map((img, i) => (
-               <img key={i} src={img} alt='ai-response' className={styles.imgRes} />
+               <img
+                  key={i}
+                  src={img}
+                  alt='ai-response'
+                  className={styles.imgRes}
+                  onError={e => {
+                     console.log((e.target.src = 'assets/default.png'))
+                  }}
+               />
             ))}
          </div>
          <span className={`${styles.time} ${showTime && styles.active}`}>2 minutes ago</span>

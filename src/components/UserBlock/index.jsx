@@ -52,7 +52,7 @@ function UserBlock() {
                   <div className={styles.avatarWrap}>
                      <img
                         className={styles.avatar}
-                        src={user.avatar ? SERVER_FOLDER + user.avatar : 'https://bom.so/wJUam1'}
+                        src={user.avatar ? SERVER_FOLDER + user.avatar : 'assets/avatar.png'}
                         alt='avt'
                      />
                      <button

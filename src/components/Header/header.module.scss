@@ -29,19 +29,46 @@
    }
 }
 
-.switchBtn {
+.switchWrap {
    display: flex;
    align-items: center;
    justify-content: flex-end;
    width: 4rem;
+   height: 1.3rem;
+   transition: all 0.3s ease-in-out;
 
-   & button {
-      padding: 4px 8px;
-      border: none;
-      border-radius: 16px;
+   & > div {
+      height: 100%;
+      width: 3.2rem;
+      background-color: #000;
+      overflow: scroll;
+      margin: 0 !important;
+      border-radius: 0.5rem;
+   }
+}
+
+.piston {
+   width: 0;
+   height: 0;
+   transition: all 0.3s ease-in-out;
+}
+
+.switchBtn {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   height: 100%;
+   width: 100%;
+   font-size: 0.8rem;
+   background-color: #333;
+   cursor: pointer;
+   user-select: none;
+
+   &:nth-child(2) {
       background: linear-gradient(45deg, cyan, yellow);
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: #333;
+   }
+
+   &:nth-child(3) {
+      background: linear-gradient(45deg, #f44336, magenta);
    }
 }

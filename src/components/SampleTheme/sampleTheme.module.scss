@@ -1,6 +1,5 @@
 .sampleTheme {
    display: inline-block;
-   --theme-size: calc((100% - 2 * var(--theme-gap)) / 3);
    position: relative;
    width: var(--theme-size);
    padding-top: var(--theme-size);
@@ -11,6 +10,7 @@
    user-select: none;
 
    & > span {
+      text-align: center;
       font-size: 0.7rem;
       position: absolute;
       top: 50%;
@@ -20,10 +20,10 @@
       opacity: 0.8;
    }
 
-   &:nth-child(3n-1) {
+   &:nth-child(3n) {
       margin: 0 var(--theme-gap);
    }
-   &:nth-child(n + 4) {
+   &:nth-child(n + 5) {
       margin-top: calc(var(--theme-gap) - 5px);
    }
 
@@ -63,11 +63,11 @@
       --theme-size: calc((100% - var(--theme-gap)) / 2);
       margin: 0 !important;
 
-      &:nth-child(odd) {
+      &:nth-child(even) {
          margin-right: var(--theme-gap) !important;
       }
 
-      &:nth-child(n + 3) {
+      &:nth-child(n + 4) {
          margin-top: calc(var(--theme-gap) - 5px) !important;
       }
    }

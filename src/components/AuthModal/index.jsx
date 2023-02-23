@@ -16,17 +16,22 @@ function AuthModal({ open, setOpen }) {
 
    const dispatch = useDispatch()
 
-   const handleSignUp = async e => {
+   const handleSubmit = async e => {
       e.preventDefault()
       const data = { username, password }
 
       try {
-         const res = await userApi.login(data)
-         dispatch(userAction.login(res.data))
+         if (isSignUp) {
+            const res = await userApi.register(data)
+            dispatch(userAction.register(res.data))
+         } else {
+            const res = await userApi.login(data)
+            dispatch(userAction.login(res.data))
+         }
 
          setUsername('')
          setPassword('')
-         setOpen(false)
+         closeModal()
       } catch (err) {
          console.log(err)
       }
@@ -56,7 +61,7 @@ function AuthModal({ open, setOpen }) {
       >
          <div ref={modalContentRef} className={styles.authWrap}>
             <h2 className={styles.heading}>{isSignUp ? 'Sign Up' : 'Login'}</h2>
-            <form className={styles.form} onSubmit={handleSignUp}>
+            <form className={styles.form} onSubmit={handleSubmit}>
                <label className={styles.label} htmlFor='username'>
                   Username
                </label>

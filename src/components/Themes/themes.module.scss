@@ -1,0 +1,42 @@
+// Select Themes
+.themeWrap {
+   --theme-gap: 0.5rem;
+   --theme-size: calc((100% - 2 * var(--theme-gap)) / 3);
+
+   max-width: calc(var(--sidebar-size) - var(--sidebar-padding));
+   width: 100%;
+   overflow-y: scroll;
+
+   // Mobile < 280px
+   @media screen and (max-width: 17.5rem) {
+      max-height: 12rem;
+   }
+}
+
+.piston {
+   width: 0 !important;
+   height: 0 !important;
+   transition: all 0.3s ease-in-out;
+}
+
+.slideWrap {
+   display: flex;
+   gap: 0.2rem;
+   width: 100%;
+   height: 1.6rem;
+   border-bottom-left-radius: 0.3rem;
+   border-bottom-right-radius: 0.3rem;
+   overflow: hidden;
+   margin-bottom: 1.5rem;
+}
+
+.slideBtn {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   width: 50%;
+   height: 100%;
+   font-size: 0.8rem;
+   background: #fff;
+   color: #333;
+}
