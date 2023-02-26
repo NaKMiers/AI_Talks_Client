@@ -3,7 +3,7 @@
    position: relative;
    width: var(--theme-size);
    padding-top: var(--theme-size);
-   background-color: #ccc;
+   background-color: var(--app-text1);
    border-radius: 50%;
    transition: all 0.3s ease-in-out;
    cursor: pointer;
@@ -93,7 +93,7 @@
    width: 2.2rem;
    height: 2.2rem;
    font-size: 1.5rem;
-   color: #fff;
+   color: var(--app-text1);
    background: none;
    border-radius: 50%;
    opacity: 0;
@@ -101,8 +101,8 @@
    z-index: 2;
 
    &:hover {
-      background: #fff;
-      color: #333;
+      background: var(--app-text1);
+      color: var(--app-text2);
    }
 }
 

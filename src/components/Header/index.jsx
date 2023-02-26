@@ -1,5 +1,5 @@
 import '@fortawesome/fontawesome-free/css/all.min.css'
-import React, { useEffect, useLayoutEffect, useRef } from 'react'
+import React, { useLayoutEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import parameterAction from '../../action/parameterAction'
 import styles from './header.module.scss'

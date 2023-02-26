@@ -16,7 +16,8 @@
    outline: none;
    border: none;
    border-radius: 1rem;
-   color: #333;
+   background: var(--app-text1);
+   color: var(--app-text2);
 }
 
 .sendBtn {
@@ -27,5 +28,5 @@
    font-size: 1.5rem;
    margin-left: 0.5rem;
    background: none;
-   color: #fff;
+   color: var(--app-text1);
 }

@@ -16,11 +16,11 @@ function userReducer(state = initState, action) {
          localStorage.clear()
          return { user: null, token: '' }
 
-      case types.CHANGE_THEME:
-         return {
-            ...state,
-            user: { ...state.user, theme: action.payload },
-         }
+      // case types.CHANGE_THEME:
+      // return {
+      //    ...state,
+      //    user: { ...state.user, theme: action.payload },
+      // }
 
       case types.CHANGE_AVATAR:
          const newState = {

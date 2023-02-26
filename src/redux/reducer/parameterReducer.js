@@ -8,6 +8,7 @@ const initState = JSON.parse(localStorage.getItem('parameters')) || {
    size: '256x256',
    amount: 1,
    mode: 1,
+   modeChanged: false,
 }
 
 function reducer(state = initState, action) {
@@ -50,7 +51,12 @@ function reducer(state = initState, action) {
          return newState
 
       case types.CHANGE_MODE:
-         newState = { ...state, mode: action.payload }
+         newState = { ...state, mode: action.payload, modeChanged: true }
+         localStorage.setItem('parameters', JSON.stringify(newState))
+         return newState
+
+      case types.RESET_MODE_CHANGED:
+         newState = { ...state, modeChanged: false }
          localStorage.setItem('parameters', JSON.stringify(newState))
          return newState
 

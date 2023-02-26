@@ -8,6 +8,7 @@ const parameterAction = {
    changeSize: payload => ({ type: types.CHANGE_SIZE, payload }),
    changeAmount: payload => ({ type: types.CHANGE_AMOUNT, payload }),
    changeMode: payload => ({ type: types.CHANGE_MODE, payload }),
+   reserModeChanged: () => ({ type: types.RESET_MODE_CHANGED }),
    reset: () => ({ type: types.RESET }),
 }
 

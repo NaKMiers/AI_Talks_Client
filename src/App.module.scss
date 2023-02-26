@@ -1,9 +1,3 @@
-:root {
-   --sidebar-size: 18rem;
-   --sidebar-bgr: #333;
-   --app-bgr: #121212;
-}
-
 * {
    margin: 0;
    padding: 0;
@@ -32,17 +26,26 @@ select {
 }
 
 .app {
+   --sidebar-size: 18rem;
+   --sidebar-bgr: #333;
+   --app-bgr: #121212;
+   --app-btn-bgr: #3cd5d5;
+   --app-text1: #fff;
+   --app-text2: #333;
+
    position: relative;
    height: 100vh;
    display: flex;
    flex-direction: column;
    justify-content: space-between;
    align-items: center;
-   background: var(--app-bgr);
    padding: 1.5rem 1rem;
    margin: auto;
+   background: var(--app-bgr);
    z-index: 0;
-   color: #fff;
+   transition: all 0.5s ease-in-out;
+
+   color: var(--app-text1);
    margin-left: var(--sidebar-size);
 
    // Mobile < 768px
@@ -59,6 +62,7 @@ select {
    left: 0;
    filter: blur(246px);
    z-index: 0;
+   transition: all 0.5s ease-in-out;
 }
 
 .gradient2 {
@@ -69,6 +73,7 @@ select {
    right: 0px;
    filter: blur(309px);
    z-index: 0;
+   transition: all 0.5s ease-in-out;
 }
 
 .gradient3 {
@@ -79,6 +84,7 @@ select {
    left: 0px;
    filter: blur(223px);
    z-index: 0;
+   transition: all 0.5s ease-in-out;
 }
 
 .gradient4 {
@@ -89,4 +95,5 @@ select {
    right: 0px;
    filter: blur(223px);
    z-index: 0;
+   transition: all 0.5s ease-in-out;
 }

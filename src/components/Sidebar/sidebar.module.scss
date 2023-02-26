@@ -9,6 +9,7 @@
    flex-direction: column;
    width: var(--sidebar-size);
    background: var(--sidebar-bgr);
+   transition: all 0.5s ease-in-out;
 
    // Tablet 768px - 1024px
    @media screen and (max-width: 64rem) {
@@ -42,7 +43,7 @@
    font-size: 1.3rem;
    background: none;
    border: none;
-   color: #fff;
+   color: var(--app-text1);
 
    // Mobile < 768px
    @media screen and (max-width: 48rem) {
@@ -81,6 +82,62 @@
 .label {
    display: block;
    font-size: 1rem;
+   opacity: 0;
+
+   // models label
+   &.model {
+      &.mode0 {
+         animation: hideFloatUp 0.4s ease-in-out 0s;
+      }
+
+      &.mode1 {
+         animation: showFloatDown 0.4s ease-in-out 0.5s;
+      }
+   }
+
+   // maxTokens label
+   &.maxToken {
+      &.mode0 {
+         animation: hideFloatLeft 0.4s ease-in-out 0.5s;
+      }
+
+      &.mode1 {
+         animation: showFloatRight 0.4s ease-in-out 1s;
+      }
+   }
+
+   // temperature label
+   &.temperature {
+      &.mode0 {
+         animation: hideFloatLeft 0.4s ease-in-out 0.5s;
+      }
+
+      &.mode1 {
+         animation: showFloatRight 0.4s ease-in-out 1s;
+      }
+   }
+
+   // themes label
+   &.theme {
+      &.mode0 {
+         animation: hideFloatDown2 0.4s ease-in-out 1s;
+      }
+
+      &.mode1 {
+         animation: showFloatUp2 0.4s ease-in-out 1.5s;
+      }
+   }
+
+   // amount label
+   &.amount {
+      &.mode0 {
+         animation: showFloatRight 0.4s ease-in-out 1.5s;
+      }
+
+      &.mode1 {
+         animation: hideFloatLeft 0.4s ease-in-out 0s;
+      }
+   }
 }
 
 // Select Models
@@ -90,6 +147,18 @@
    font-size: 1rem;
    border-radius: 0.4rem;
    padding: 0.8rem 0.5rem;
+   background: var(--app-text1);
+   color: var(--app-text2);
+   // transition: all 0.5s ease-in-out;
+   opacity: 0;
+
+   &.mode0 {
+      animation: hideFloatUp 0.5s ease-in-out 0s;
+   }
+
+   &.mode1 {
+      animation: showFloatDown 0.5s ease-in-out 0.5s;
+   }
 }
 
 .groupByWrap {
@@ -97,20 +166,31 @@
    justify-content: flex-end;
    max-width: calc(var(--sidebar-size) - var(--sidebar-padding));
    margin-bottom: 1.5rem;
+   opacity: 0;
 
    & i {
       font-size: 0.8rem;
-      color: #2196f3;
+      color: var(--app-btn-bgr);
       margin-right: 0.1rem;
    }
 
    & select {
       border-radius: 1rem;
       padding: 0 0.2rem;
+      background: var(--app-text1);
+      color: var(--app-text2);
+   }
+
+   &.mode0 {
+      animation: hideFloatUp2 0.5s ease-in-out 0s;
+   }
+
+   &.mode1 {
+      animation: showFloatDown2 0.5s ease-in-out 0.5s;
    }
 }
 
-// Max Token
+// Max Tokens
 .maxTokenWrap {
    --max-token-height: 2.5rem;
    --max-token-gap: 0.3rem;
@@ -124,6 +204,15 @@
    border-radius: 0.2rem;
    overflow: hidden;
    margin-bottom: 1.5rem;
+   opacity: 0;
+
+   &.mode0 {
+      animation: hideFloatLeft 0.5s ease-in-out 0.5s;
+   }
+
+   &.mode1 {
+      animation: showFloatRight 0.5s ease-in-out 1s;
+   }
 }
 
 .maxTokenInput {
@@ -134,6 +223,8 @@
    border: none;
    outline: none;
    text-align: center;
+   color: var(--app-text2);
+   background: var(--app-text1);
 
    &::-webkit-inner-spin-button,
    &::-webkit-outer-spin-button {
@@ -148,10 +239,10 @@
 }
 
 .maxTokenBtn {
-   background: rgb(60, 213, 213);
+   background: var(--app-btn-bgr);
    height: var(--max-token-height);
    width: var(--max-token-height);
-   color: #fff;
+   color: var(--app-text1);
 }
 
 // Temperature
@@ -162,6 +253,15 @@
    max-width: 100%;
    width: 14rem;
    margin-bottom: 1.5rem;
+   opacity: 0;
+
+   &.mode0 {
+      animation: hideFloatLeft 0.5s ease-in-out 0.5s;
+   }
+
+   &.mode1 {
+      animation: showFloatRight 0.5s ease-in-out 1s;
+   }
 }
 
 .temperatureInput {
@@ -171,7 +271,7 @@
    appearance: none;
    outline: none;
    border-radius: 1rem;
-   background: #fff;
+   background: var(--app-text1);
    cursor: pointer;
 
    &::-webkit-slider-thumb {
@@ -180,7 +280,7 @@
       width: 1rem;
       height: 1rem;
       border-radius: 50%;
-      background: #3cd5d5;
+      background: var(--app-btn-bgr);
    }
 }
 
@@ -193,22 +293,30 @@
 // Amount
 .amountWrap {
    --amount-height: 2.5rem;
-
    display: flex;
    align-items: center;
    justify-content: space-between;
    gap: 0.3rem;
    max-width: 100%;
    height: var(--amount-height);
-   color: #333;
+   color: var(--app-text2);
    margin-bottom: 1.5rem;
    border-radius: 0.2rem;
    overflow: hidden;
    font-size: 1.1rem;
+   opacity: 0;
+
+   &.mode0 {
+      animation: showFloatRight 0.5s ease-in-out 1.5s;
+   }
+
+   &.mode1 {
+      animation: hideFloatLeft 0.5s ease-in-out 0s;
+   }
 }
 
-.amount {
-   background: #fff;
+.amountValue {
+   background: var(--app-text1);
    height: var(--amount-height);
    line-height: var(--amount-height);
    text-align: center;
@@ -216,20 +324,27 @@
 }
 
 .amountBtn {
-   background: rgb(60, 213, 213);
+   background: var(--app-btn-bgr);
    height: var(--amount-height);
    width: var(--amount-height);
-   color: #fff;
+   color: var(--app-text1);
 }
 
 .resetBtn {
+   display: none !important;
    position: relative;
    display: inline-block;
    align-self: center;
    height: 2rem;
-   color: #fff;
+   color: var(--app-text1);
    background: none;
    padding: 0 0.5rem;
+   transition: all 0.4s ease-in-out;
+   opacity: 1;
+
+   &.hide {
+      opacity: 0;
+   }
 
    &:after {
       content: '';
@@ -239,11 +354,117 @@
       transform: translateX(-50%);
       width: 0rem;
       height: 0.1rem;
-      background: #fff;
+      background: var(--app-text1);
       transition: all 0.2s ease-in;
    }
 
    &:hover:after {
       width: 2.2rem;
+   }
+}
+
+@keyframes hideFloatUp {
+   from {
+      transform: translateY(0);
+      opacity: 1;
+   }
+   to {
+      transform: translateY(-100%);
+      opacity: 0;
+   }
+}
+@keyframes hideFloatUp2 {
+   from {
+      transform: translateY(0);
+      opacity: 1;
+   }
+   to {
+      transform: translateY(-300%);
+      opacity: 0;
+   }
+}
+@keyframes showFloatDown {
+   from {
+      transform: translateY(-100%);
+      opacity: 0;
+   }
+   to {
+      transform: translateY(0);
+      opacity: 1;
+   }
+}
+@keyframes showFloatDown2 {
+   from {
+      transform: translateY(-300%);
+      opacity: 0;
+   }
+   to {
+      transform: translateY(0);
+      opacity: 1;
+   }
+}
+
+@keyframes hideFloatDown {
+   from {
+      transform: translateY(0);
+      opacity: 1;
+   }
+   to {
+      transform: translateY(100%);
+      opacity: 0;
+   }
+}
+
+@keyframes showFloatUp {
+   from {
+      transform: translateY(100%);
+      opacity: 0;
+   }
+   to {
+      transform: translateY(0);
+      opacity: 1;
+   }
+}
+
+@keyframes hideFloatDown2 {
+   from {
+      transform: translateY(0);
+      opacity: 1;
+   }
+   to {
+      transform: translateY(300%);
+      opacity: 0;
+   }
+}
+@keyframes showFloatUp2 {
+   from {
+      transform: translateY(300%);
+      opacity: 0;
+   }
+   to {
+      transform: translateY(0);
+      opacity: 1;
+   }
+}
+
+@keyframes hideFloatLeft {
+   from {
+      transform: translateX(0);
+      opacity: 1;
+   }
+   to {
+      transform: translateX(-100%);
+      opacity: 0;
+   }
+}
+
+@keyframes showFloatRight {
+   from {
+      transform: translateX(-100%);
+      opacity: 0;
+   }
+   to {
+      transform: translateX(0);
+      opacity: 1;
    }
 }

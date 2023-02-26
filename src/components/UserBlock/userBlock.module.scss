@@ -14,10 +14,9 @@
    font-size: 1.1em;
    font-weight: bold;
    padding: 0.5rem 0;
-   color: #333;
-   background: none;
+   color: var(--app-text2);
    transition: all 0.3s ease-in-out;
-   background-color: #eee;
+   background: var(--app-text1);
    border-radius: 0.3rem;
 
    & i {
@@ -36,7 +35,7 @@
       bottom: 0.35rem;
       left: 50%;
       transform: translateX(-50%);
-      background: #333;
+      background: var(--app-text2);
       width: 0rem;
       height: 0.15rem;
       transition: all 0.3s ease;
@@ -82,7 +81,7 @@
    position: absolute;
    width: 100%;
    height: 100%;
-   color: #fff;
+   color: var(--app-text1);
    background: rgba(0, 0, 0, 0.3);
    opacity: 0;
    transition: all 0.3s ease;
@@ -128,9 +127,9 @@
       transition: all 0.3s ease-in-out;
 
       &:hover {
-         background: #eee;
+         background: var(--app-text1);
          cursor: pointer;
-         color: #333;
+         color: var(--app-text2);
       }
    }
 

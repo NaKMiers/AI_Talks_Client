@@ -8,7 +8,7 @@
       display: block;
       padding: 0.5rem 0.5rem;
       border-radius: 0.5rem;
-      border: 2px solid #fff;
+      border: 2px solid var(--app-text1);
       cursor: pointer;
    }
 }
@@ -22,7 +22,7 @@
       display: block;
       padding: 0.5rem 0.5rem;
       border-radius: 0.5rem;
-      border: 2px solid #fff;
+      border: 2px solid var(--app-text1);
       background: linear-gradient(to right, #b8d8ba, #7d9a91);
       cursor: pointer;
    }
@@ -31,7 +31,7 @@
 .time {
    display: none;
    line-height: 1rem;
-   color: #fff;
+   color: var(--app-text1);
    font-size: 0.8rem;
    margin-left: 0.2rem;
    overflow: hidden;

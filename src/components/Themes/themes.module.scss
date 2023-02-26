@@ -6,6 +6,15 @@
    max-width: calc(var(--sidebar-size) - var(--sidebar-padding));
    width: 100%;
    overflow-y: scroll;
+   opacity: 0;
+
+   &.mode0 {
+      animation: hideFloatDown 0.5s ease-in-out 1s;
+   }
+
+   &.mode1 {
+      animation: showFloatUp 0.5s ease-in-out 1.5s;
+   }
 
    // Mobile < 280px
    @media screen and (max-width: 17.5rem) {
@@ -28,6 +37,15 @@
    border-bottom-right-radius: 0.3rem;
    overflow: hidden;
    margin-bottom: 1.5rem;
+   opacity: 0;
+
+   &.mode0 {
+      animation: hideFloatDown2 0.4s ease-in-out 1s;
+   }
+
+   &.mode1 {
+      animation: showFloatUp2 0.4s ease-in-out 1.5s;
+   }
 }
 
 .slideBtn {
@@ -37,6 +55,50 @@
    width: 50%;
    height: 100%;
    font-size: 0.8rem;
-   background: #fff;
-   color: #333;
+   background: var(--app-text1);
+   color: var(--app-text2);
+}
+
+@keyframes hideFloatDown {
+   from {
+      transform: translateY(0);
+      opacity: 1;
+   }
+   to {
+      transform: translateY(100%);
+      opacity: 0;
+   }
+}
+
+@keyframes showFloatUp {
+   from {
+      transform: translateY(100%);
+      opacity: 0;
+   }
+   to {
+      transform: translateY(0);
+      opacity: 1;
+   }
+}
+
+@keyframes hideFloatDown2 {
+   from {
+      transform: translateY(0);
+      opacity: 1;
+   }
+   to {
+      transform: translateY(500%);
+      opacity: 0;
+   }
+}
+
+@keyframes showFloatUp2 {
+   from {
+      transform: translateY(500%);
+      opacity: 0;
+   }
+   to {
+      transform: translateY(0);
+      opacity: 1;
+   }
 }

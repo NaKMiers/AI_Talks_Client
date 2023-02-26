@@ -2,28 +2,38 @@ import React, { useEffect, useState } from 'react'
 import styles from './sampleTheme.module.scss'
 import userApi from '../../apis/userApi'
 import { useRef } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import parameterAction from '../../action/parameterAction'
 
 function SampleTheme({ data, changing, setChanging }) {
+   const dispatch = useDispatch()
+   const { user } = useSelector(state => state.userReducer)
+   const { theme } = useSelector(state => state.parameterReducer)
    const [loading, setLoading] = useState(false)
    const timeoutRef = useRef(null)
 
    const handleChangeTheme = () => {
       // if this theme is changing, other theme can't change
+      console.log(data)
       if (!changing) {
          setLoading(true)
          setChanging(true)
 
          timeoutRef.current = setTimeout(async () => {
-            try {
-               // const res = await userApi.changeTheme()
-               console.log(data)
-            } catch (err) {
-               console.log(err)
+            if (user) {
+               try {
+                  console.log(12312323)
+                  // const res = await userApi.changeTheme()
+               } catch (err) {
+                  console.log(err)
+               }
+            } else {
+               dispatch(parameterAction.changeTheme(data.index))
             }
 
             setLoading(false)
             setChanging(false)
-         }, 3000)
+         }, 2000)
       }
    }
 
@@ -41,7 +51,11 @@ function SampleTheme({ data, changing, setChanging }) {
          className={`${styles.sampleTheme} ${loading ? styles.disappear : ''} ${
             changing && !loading && styles.disabled
          }`}
-         style={{ background: data.background, color: data.text }}
+         style={{
+            background: data.background,
+            color: data.text,
+            borderRadius: data.index === theme ? '0.2rem' : '',
+         }}
          onClick={handleChangeTheme}
       >
          <span>{data.label}</span>
