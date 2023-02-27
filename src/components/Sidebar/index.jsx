@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import parameterAction from '../../action/parameterAction'
 import { GroupByName } from '../../data/modelData'
 import Themes from '../Themes'
 import UserBlock from '../UserBlock'
 import styles from './sidebar.module.scss'
-import parameterAction from '../../action/parameterAction'
-import { useRef } from 'react'
 
 function Sidebar({ showSidebar, setShowSidebar }) {
    const dispath = useDispatch()
@@ -26,10 +25,120 @@ function Sidebar({ showSidebar, setShowSidebar }) {
    const tempLabelRef = useRef(null)
    const tempInputRef = useRef(null)
    const themeLabelRef = useRef(null)
+
    const amountLabelRef = useRef(null)
    const amountInputRef = useRef(null)
    const sizeLabelRef = useRef(null)
    const sizeInputRef = useRef(null)
+
+   const paramsMode1 = useMemo(
+      () => [
+         {
+            ref: modelLabelRef,
+            display: 'block',
+         },
+         {
+            ref: modelInputRef,
+            display: 'block',
+         },
+         {
+            ref: groupByRef,
+            display: 'flex',
+         },
+         {
+            ref: maxTokenLabelRef,
+            display: 'block',
+         },
+         {
+            ref: maxTokenInputRef,
+            display: 'flex',
+         },
+         {
+            ref: tempLabelRef,
+            display: 'block',
+         },
+         {
+            ref: tempInputRef,
+            display: 'flex',
+         },
+         {
+            ref: themeLabelRef,
+            display: 'block',
+         },
+      ],
+      []
+   )
+
+   const paramsMode0 = useMemo(
+      () => [
+         {
+            ref: amountLabelRef,
+            display: 'block',
+         },
+         {
+            ref: amountInputRef,
+            display: 'flex',
+         },
+         {
+            ref: sizeLabelRef,
+            display: 'block',
+         },
+         {
+            ref: sizeInputRef,
+            display: 'flex',
+         },
+      ],
+      []
+   )
+
+   // change mode animation sidebar
+   useEffect(() => {
+      if (!modeChanged) {
+         if (mode === 1) {
+            paramsMode1.forEach(item => (item.ref.current.style.opacity = 1))
+            paramsMode1.forEach(item => (item.ref.current.style.display = item.display))
+
+            // ----
+
+            paramsMode0.forEach(item => (item.ref.current.style.opacity = 0))
+            paramsMode0.forEach(item => (item.ref.current.style.display = 'none'))
+         } else if (mode === 0) {
+            paramsMode1.forEach(item => (item.ref.current.style.opacity = 0))
+            paramsMode1.forEach(item => (item.ref.current.style.display = 'none'))
+
+            // ----
+
+            paramsMode0.forEach(item => (item.ref.current.style.opacity = 1))
+            paramsMode0.forEach(item => (item.ref.current.style.display = item.display))
+         }
+      } else if (modeChanged) {
+         if (mode === 1) {
+            paramsMode0.forEach(item => (item.ref.current.style.opacity = 0))
+            setTimeout(() => {
+               paramsMode0.forEach(item => (item.ref.current.style.display = 'none'))
+               paramsMode1.forEach(item => (item.ref.current.style.display = item.display))
+            }, 490) // time = transition = 500ms
+
+            // ----
+
+            setTimeout(() => {
+               paramsMode1.forEach(item => (item.ref.current.style.opacity = 1))
+            }, 990) // time = display + transition = 500 + 500 = 1000ms
+         } else if (mode === 0) {
+            paramsMode1.forEach(item => (item.ref.current.style.opacity = 0))
+            setTimeout(() => {
+               paramsMode1.forEach(item => (item.ref.current.style.display = 'none'))
+               paramsMode0.forEach(item => (item.ref.current.style.display = item.display))
+            }, 490) // time = transition = 500ms
+
+            // ----
+
+            setTimeout(() => {
+               paramsMode0.forEach(item => (item.ref.current.style.opacity = 1))
+            }, 990) // time = display + transition = 500 + 500 = 1000ms
+         }
+      }
+   }, [mode, modeChanged, paramsMode0, paramsMode1])
 
    const handleChangeParameter = (type, value) => {
       switch (type) {
@@ -91,226 +200,6 @@ function Sidebar({ showSidebar, setShowSidebar }) {
          </optgroup>
       ))
    }
-
-   const handleChangeModeTo0 = () => {
-      // hide reset button
-      resetRef.current.classList.add(styles.hide)
-
-      // hide models
-      modelLabelRef.current.classList.add(styles.mode0)
-      setTimeout(() => {
-         modelLabelRef.current.classList.remove(styles.mode0)
-         modelLabelRef.current.style.opacity = 0
-      }, 390) // 400ms delay: 0
-
-      modelInputRef.current.classList.add(styles.mode0)
-      groupByRef.current.classList.add(styles.mode0)
-      setTimeout(() => {
-         modelInputRef.current.classList.remove(styles.mode0)
-         modelInputRef.current.style.opacity = 0
-         groupByRef.current.classList.remove(styles.mode0)
-         groupByRef.current.style.opacity = 0
-      }, 490) // 500ms delay: 0
-
-      // // hide maxTokens, temperature
-      maxTokenLabelRef.current.classList.add(styles.mode0)
-      tempLabelRef.current.classList.add(styles.mode0)
-      setTimeout(() => {
-         maxTokenLabelRef.current.classList.remove(styles.mode0)
-         maxTokenLabelRef.current.style.opacity = 0
-         tempLabelRef.current.classList.remove(styles.mode0)
-         tempLabelRef.current.style.opacity = 0
-      }, 890) // 400ms delay: models = 500ms
-
-      maxTokenInputRef.current.classList.add(styles.mode0)
-      tempInputRef.current.classList.add(styles.mode0)
-      setTimeout(() => {
-         maxTokenInputRef.current.classList.remove(styles.mode0)
-         maxTokenInputRef.current.style.opacity = 0
-         tempInputRef.current.classList.remove(styles.mode0)
-         tempInputRef.current.style.opacity = 0
-      }, 990) // 500ms delay: models = 500ms
-
-      // // hide themes
-      themeLabelRef.current.classList.add(styles.mode0)
-      setTimeout(() => {
-         themeLabelRef.current.classList.remove(styles.mode0)
-         themeLabelRef.current.style.opacity = 0
-      }, 1390) // 400ms delay: models + maxTokens = 500 + 500 = 1000ms
-
-      // All none
-      setTimeout(() => {
-         modelLabelRef.current.style.display = 'none'
-         modelInputRef.current.style.display = 'none'
-         groupByRef.current.style.display = 'none'
-         maxTokenLabelRef.current.style.display = 'none'
-         tempLabelRef.current.style.display = 'none'
-         maxTokenInputRef.current.style.display = 'none'
-         tempInputRef.current.style.display = 'none'
-         themeLabelRef.current.style.display = 'none'
-      }, 1490) // 0ms delay: models + maxTokens + themes = 500 + 500 + 500 = 1500ms
-
-      // // --------------
-
-      // All display
-      setTimeout(() => {
-         amountLabelRef.current.style.display = 'block'
-         sizeLabelRef.current.style.display = 'block'
-         amountInputRef.current.style.display = 'flex'
-         sizeInputRef.current.style.display = 'flex'
-      }, 0) // 0ms delay: 0
-
-      // // show amount, size
-      amountLabelRef.current.classList.add(styles.mode0)
-      sizeLabelRef.current.classList.add(styles.mode0)
-      setTimeout(() => {
-         amountLabelRef.current.classList.remove(styles.mode0)
-         amountLabelRef.current.style.opacity = 1
-         sizeLabelRef.current.classList.remove(styles.mode0)
-         sizeLabelRef.current.style.opacity = 1
-      }, 1890) // 400ms delay: models + maxTokens + themes = 500 + 500 + 500 = 1500ms
-
-      amountInputRef.current.classList.add(styles.mode0)
-      sizeInputRef.current.classList.add(styles.mode0)
-      setTimeout(() => {
-         amountInputRef.current.classList.remove(styles.mode0)
-         amountInputRef.current.style.opacity = 1
-         sizeInputRef.current.classList.remove(styles.mode0)
-         sizeInputRef.current.style.opacity = 1
-      }, 1990) // 500ms delay: models + maxTokens + themes = 500 + 500 + 500 = 1500ms
-
-      // show reset button
-      resetRef.current.classList.remove(styles.hide)
-   }
-
-   const handleChangeModeTo1 = () => {
-      // hide reset button
-      resetRef.current.classList.add(styles.hide)
-
-      // hide amount, size
-      amountLabelRef.current.classList.add(styles.mode1)
-      sizeLabelRef.current.classList.add(styles.mode1)
-      setTimeout(() => {
-         amountLabelRef.current.classList.remove(styles.mode1)
-         amountLabelRef.current.style.opacity = 0
-         sizeLabelRef.current.classList.remove(styles.mode1)
-         sizeLabelRef.current.style.opacity = 0
-      }, 390) // 400ms delay: 0ms
-
-      amountInputRef.current.classList.add(styles.mode1)
-      sizeInputRef.current.classList.add(styles.mode1)
-      setTimeout(() => {
-         amountInputRef.current.classList.remove(styles.mode1)
-         amountInputRef.current.style.opacity = 0
-         sizeInputRef.current.classList.remove(styles.mode1)
-         sizeInputRef.current.style.opacity = 0
-      }, 490) // 500ms delay: 0ms
-
-      // All none
-      setTimeout(() => {
-         amountLabelRef.current.style.display = 'none'
-         sizeLabelRef.current.style.display = 'none'
-         amountInputRef.current.style.display = 'none'
-         sizeInputRef.current.style.display = 'none'
-      }, 490) // 0ms delay: amount = 500ms
-
-      // --------------
-
-      // All display
-      setTimeout(() => {
-         modelLabelRef.current.style.display = 'block'
-         modelInputRef.current.style.display = 'flex'
-         groupByRef.current.style.display = 'flex'
-         maxTokenLabelRef.current.style.display = 'block'
-         maxTokenInputRef.current.style.display = 'flex'
-         tempLabelRef.current.style.display = 'block'
-         tempInputRef.current.style.display = 'flex'
-         themeLabelRef.current.style.display = 'block'
-      }, 0) // 0ms delay: 0
-
-      // show models
-      modelLabelRef.current.classList.add(styles.mode1)
-      setTimeout(() => {
-         modelLabelRef.current.classList.remove(styles.mode1)
-         modelLabelRef.current.style.opacity = 1
-      }, 890) // 400ms delay: amount = 500ms
-
-      modelInputRef.current.classList.add(styles.mode1)
-      groupByRef.current.classList.add(styles.mode1)
-      setTimeout(() => {
-         modelInputRef.current.classList.remove(styles.mode1)
-         modelInputRef.current.style.opacity = 1
-         groupByRef.current.classList.remove(styles.mode1)
-         groupByRef.current.style.opacity = 1
-      }, 990) // 500ms delay: amount = 500ms
-
-      // show maxTokens, temperature
-      maxTokenLabelRef.current.classList.add(styles.mode1)
-      tempLabelRef.current.classList.add(styles.mode1)
-      setTimeout(() => {
-         maxTokenLabelRef.current.classList.remove(styles.mode1)
-         maxTokenLabelRef.current.style.opacity = 1
-         tempLabelRef.current.classList.remove(styles.mode1)
-         tempLabelRef.current.style.opacity = 1
-      }, 1390) // 400ms delay: amount + models = 500 + 500 = 1000ms
-
-      maxTokenInputRef.current.classList.add(styles.mode1)
-      tempInputRef.current.classList.add(styles.mode1)
-      setTimeout(() => {
-         maxTokenInputRef.current.classList.remove(styles.mode1)
-         maxTokenInputRef.current.style.opacity = 1
-         tempInputRef.current.classList.remove(styles.mode1)
-         tempInputRef.current.style.opacity = 1
-      }, 1490) // 500ms delay: amount + models = 500 + 500 = 1000ms
-
-      // show themes
-      themeLabelRef.current.classList.add(styles.mode1)
-      setTimeout(() => {
-         themeLabelRef.current.classList.remove(styles.mode1)
-         themeLabelRef.current.style.opacity = 1
-      }, 1890) // 400ms delay: amount + models + maxTokens = 500 + 500 + 500 = 1500ms
-
-      // show reset button
-      resetRef.current.classList.remove(styles.hide)
-   }
-
-   useEffect(() => {
-      modeChanged && mode === 0 && handleChangeModeTo0()
-      modeChanged && mode === 1 && handleChangeModeTo1()
-   }, [mode, modeChanged])
-
-   useEffect(() => {
-      if (!modeChanged && mode === 0) {
-         amountLabelRef.current.style.opacity = 1
-         amountInputRef.current.style.opacity = 1
-         sizeLabelRef.current.style.opacity = 1
-         sizeInputRef.current.style.opacity = 1
-
-         // amountLabelRef.current.style.display = 'block'
-         // amountInputRef.current.style.display = 'flex'
-         // sizeLabelRef.current.style.display = 'block'
-         // sizeInputRef.current.style.display = 'flex'
-      }
-      if (!modeChanged && mode === 1) {
-         modelLabelRef.current.style.opacity = 1
-         modelInputRef.current.style.opacity = 1
-         groupByRef.current.style.opacity = 1
-         maxTokenLabelRef.current.style.opacity = 1
-         maxTokenInputRef.current.style.opacity = 1
-         tempLabelRef.current.style.opacity = 1
-         tempInputRef.current.style.opacity = 1
-         themeLabelRef.current.style.opacity = 1
-
-         // modelLabelRef.current.style.display = 'block'
-         // modelInputRef.current.style.display = 'flex'
-         // groupByRef.current.style.display = 'flex'
-         // maxTokenLabelRef.current.style.display = 'block'
-         // maxTokenInputRef.current.style.display = 'flex'
-         // tempLabelRef.current.style.display = 'block'
-         // tempInputRef.current.style.display = 'flex'
-         // themeLabelRef.current.style.display = 'block'
-      }
-   }, [modeChanged, mode])
 
    return (
       <div className={`${styles.sidebar} ${showSidebar && styles.active}`}>

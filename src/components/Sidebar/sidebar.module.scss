@@ -82,66 +82,13 @@
 .label {
    display: block;
    font-size: 1rem;
-   opacity: 0;
 
-   // models label
-   &.model {
-      &.mode0 {
-         animation: hideFloatUp 0.4s ease-in-out 0s;
-      }
-
-      &.mode1 {
-         animation: showFloatDown 0.4s ease-in-out 0.5s;
-      }
-   }
-
-   // maxTokens label
-   &.maxToken {
-      &.mode0 {
-         animation: hideFloatLeft 0.4s ease-in-out 0.5s;
-      }
-
-      &.mode1 {
-         animation: showFloatRight 0.4s ease-in-out 1s;
-      }
-   }
-
-   // temperature label
-   &.temperature {
-      &.mode0 {
-         animation: hideFloatLeft 0.4s ease-in-out 0.5s;
-      }
-
-      &.mode1 {
-         animation: showFloatRight 0.4s ease-in-out 1s;
-      }
-   }
-
-   // themes label
-   &.theme {
-      &.mode0 {
-         animation: hideFloatDown2 0.4s ease-in-out 1s;
-      }
-
-      &.mode1 {
-         animation: showFloatUp2 0.4s ease-in-out 1.5s;
-      }
-   }
-
-   // amount label
-   &.amount {
-      &.mode0 {
-         animation: showFloatRight 0.4s ease-in-out 1.5s;
-      }
-
-      &.mode1 {
-         animation: hideFloatLeft 0.4s ease-in-out 0s;
-      }
-   }
+   transition: all 0.5s ease-in-out;
 }
 
 // Select Models
 .selectModel {
+   display: block;
    max-width: calc(var(--sidebar-size) - var(--sidebar-padding));
    width: 100%;
    font-size: 1rem;
@@ -149,16 +96,8 @@
    padding: 0.8rem 0.5rem;
    background: var(--app-text1);
    color: var(--app-text2);
-   // transition: all 0.5s ease-in-out;
-   opacity: 0;
 
-   &.mode0 {
-      animation: hideFloatUp 0.5s ease-in-out 0s;
-   }
-
-   &.mode1 {
-      animation: showFloatDown 0.5s ease-in-out 0.5s;
-   }
+   transition: all 0.5s ease-in-out;
 }
 
 .groupByWrap {
@@ -166,7 +105,8 @@
    justify-content: flex-end;
    max-width: calc(var(--sidebar-size) - var(--sidebar-padding));
    margin-bottom: 1.5rem;
-   opacity: 0;
+
+   transition: all 0.5s ease-in-out;
 
    & i {
       font-size: 0.8rem;
@@ -179,14 +119,6 @@
       padding: 0 0.2rem;
       background: var(--app-text1);
       color: var(--app-text2);
-   }
-
-   &.mode0 {
-      animation: hideFloatUp2 0.5s ease-in-out 0s;
-   }
-
-   &.mode1 {
-      animation: showFloatDown2 0.5s ease-in-out 0.5s;
    }
 }
 
@@ -204,15 +136,8 @@
    border-radius: 0.2rem;
    overflow: hidden;
    margin-bottom: 1.5rem;
-   opacity: 0;
 
-   &.mode0 {
-      animation: hideFloatLeft 0.5s ease-in-out 0.5s;
-   }
-
-   &.mode1 {
-      animation: showFloatRight 0.5s ease-in-out 1s;
-   }
+   transition: all 0.5s ease-in-out;
 }
 
 .maxTokenInput {
@@ -253,14 +178,15 @@
    max-width: 100%;
    width: 14rem;
    margin-bottom: 1.5rem;
-   opacity: 0;
+
+   transition: all 0.5s ease-in-out;
 
    &.mode0 {
       animation: hideFloatLeft 0.5s ease-in-out 0.5s;
    }
 
    &.mode1 {
-      animation: showFloatRight 0.5s ease-in-out 1s;
+      animation: showFloatRight 0.5s ease-in-out 1.1s;
    }
 }
 
@@ -304,15 +230,8 @@
    border-radius: 0.2rem;
    overflow: hidden;
    font-size: 1.1rem;
-   opacity: 0;
 
-   &.mode0 {
-      animation: showFloatRight 0.5s ease-in-out 1.5s;
-   }
-
-   &.mode1 {
-      animation: hideFloatLeft 0.5s ease-in-out 0s;
-   }
+   transition: all 0.5s ease-in-out;
 }
 
 .amountValue {
@@ -360,111 +279,5 @@
 
    &:hover:after {
       width: 2.2rem;
-   }
-}
-
-@keyframes hideFloatUp {
-   from {
-      transform: translateY(0);
-      opacity: 1;
-   }
-   to {
-      transform: translateY(-100%);
-      opacity: 0;
-   }
-}
-@keyframes hideFloatUp2 {
-   from {
-      transform: translateY(0);
-      opacity: 1;
-   }
-   to {
-      transform: translateY(-300%);
-      opacity: 0;
-   }
-}
-@keyframes showFloatDown {
-   from {
-      transform: translateY(-100%);
-      opacity: 0;
-   }
-   to {
-      transform: translateY(0);
-      opacity: 1;
-   }
-}
-@keyframes showFloatDown2 {
-   from {
-      transform: translateY(-300%);
-      opacity: 0;
-   }
-   to {
-      transform: translateY(0);
-      opacity: 1;
-   }
-}
-
-@keyframes hideFloatDown {
-   from {
-      transform: translateY(0);
-      opacity: 1;
-   }
-   to {
-      transform: translateY(100%);
-      opacity: 0;
-   }
-}
-
-@keyframes showFloatUp {
-   from {
-      transform: translateY(100%);
-      opacity: 0;
-   }
-   to {
-      transform: translateY(0);
-      opacity: 1;
-   }
-}
-
-@keyframes hideFloatDown2 {
-   from {
-      transform: translateY(0);
-      opacity: 1;
-   }
-   to {
-      transform: translateY(300%);
-      opacity: 0;
-   }
-}
-@keyframes showFloatUp2 {
-   from {
-      transform: translateY(300%);
-      opacity: 0;
-   }
-   to {
-      transform: translateY(0);
-      opacity: 1;
-   }
-}
-
-@keyframes hideFloatLeft {
-   from {
-      transform: translateX(0);
-      opacity: 1;
-   }
-   to {
-      transform: translateX(-100%);
-      opacity: 0;
-   }
-}
-
-@keyframes showFloatRight {
-   from {
-      transform: translateX(-100%);
-      opacity: 0;
-   }
-   to {
-      transform: translateX(0);
-      opacity: 1;
    }
 }

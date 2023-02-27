@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react'
-import { useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import themeData from '../../data/themeData'
 import SampleTheme from '../SampleTheme'
@@ -29,62 +28,44 @@ function Themes() {
       }
    }, [])
 
-   const handleChangeModeTo0 = () => {
-      // hide themes
-      themeRef.current.classList.add(styles.mode0)
-      setTimeout(() => {
-         themeRef.current.classList.remove(styles.mode0)
-         themeRef.current.style.opacity = 0
-      }, 1490) // 500ms delay: models + maxTokens = 500 + 500 = 1000ms
-
-      slideRef.current.classList.add(styles.mode0)
-      setTimeout(() => {
-         slideRef.current.classList.remove(styles.mode0)
-         slideRef.current.style.opacity = 0
-      }, 1390) // 500ms delay: models + maxTokens = 500 + 500 = 1000ms
-
-      // All none
-      setTimeout(() => {
-         themeRef.current.style.display = 'none'
-         slideRef.current.style.display = 'none'
-      }, 1490) // 0ms delay: models + maxTokens + themes = 500 + 500 + 500 = 1500ms
-   }
-
-   const handleChangeModeTo1 = () => {
-      // All display
-      setTimeout(() => {
-         themeRef.current.style.display = 'block'
-         slideRef.current.style.display = 'flex'
-      }, 0) // 0ms delay: 0
-
-      // show themes
-      themeRef.current.classList.add(styles.mode1)
-      setTimeout(() => {
-         themeRef.current.classList.remove(styles.mode1)
-         themeRef.current.style.opacity = 1
-      }, 1990) // 500ms delay: amount + models + maxTokens = 500 + 500 + 500 = 1500ms
-
-      slideRef.current.classList.add(styles.mode1)
-      setTimeout(() => {
-         slideRef.current.classList.remove(styles.mode1)
-         slideRef.current.style.opacity = 1
-      }, 1890) // 500ms delay: amount + models + maxTokens = 500 + 500 + 500 = 1500ms
-   }
-
    useEffect(() => {
-      modeChanged && mode === 0 && handleChangeModeTo0()
-      modeChanged && mode === 1 && handleChangeModeTo1()
-   }, [mode, modeChanged])
+      if (!modeChanged) {
+         if (mode === 1) {
+            themeRef.current.style.opacity = 1
+            slideRef.current.style.opacity = 1
 
-   useEffect(() => {
-      if (!modeChanged && mode === 1) {
-         themeRef.current.style.opacity = 1
-         slideRef.current.style.opacity = 1
+            themeRef.current.style.display = 'block'
+            slideRef.current.style.display = 'flex'
+         } else if (mode === 0) {
+            themeRef.current.style.opacity = 0
+            slideRef.current.style.opacity = 0
 
-         // themeRef.current.style.display = 'block'
-         // slideRef.current.style.display = 'flex'
+            themeRef.current.style.display = 'none'
+            slideRef.current.style.display = 'none'
+         }
+      } else if (modeChanged) {
+         if (mode === 1) {
+            setTimeout(() => {
+               themeRef.current.style.display = 'block'
+               slideRef.current.style.display = 'flex'
+            }, 490) // time = transition = 500ms
+
+            //  ----
+            setTimeout(() => {
+               themeRef.current.style.opacity = 1
+               slideRef.current.style.opacity = 1
+            }, 990) // time = display + transition = 500 + 500 = 1000ms
+         } else if (mode === 0) {
+            themeRef.current.style.opacity = 0
+            slideRef.current.style.opacity = 0
+
+            setTimeout(() => {
+               themeRef.current.style.display = 'none'
+               slideRef.current.style.display = 'none'
+            }, 490) // time = transition = 500ms
+         }
       }
-   }, [modeChanged, mode])
+   }, [mode, modeChanged])
 
    const handleSlide = direction => {
       if (direction === 'down') {
