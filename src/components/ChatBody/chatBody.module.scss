@@ -12,4 +12,17 @@
    max-width: 48.75rem;
    border-bottom-left-radius: 1rem;
    border-bottom-right-radius: 1rem;
+
+   transition: all 0.8s ease;
+}
+
+.aiMessage {
+   max-width: 20rem;
+   color: #123;
+
+   & > img {
+      width: 2.2rem;
+      height: 1.8rem;
+      border-radius: 0.5rem;
+   }
 }

@@ -1,5 +1,5 @@
 import '@fortawesome/fontawesome-free/css/all.min.css'
-import React, { useLayoutEffect, useRef } from 'react'
+import React, { useLayoutEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import parameterAction from '../../action/parameterAction'
 import styles from './header.module.scss'
@@ -8,6 +8,8 @@ function Header({ setShowSidebar }) {
    const dispatch = useDispatch()
    const { mode } = useSelector(state => state.parameterReducer)
 
+   const [modeChanging, setModeChanging] = useState(false)
+
    const pistonRef = useRef()
 
    useLayoutEffect(() => {
@@ -15,7 +17,15 @@ function Header({ setShowSidebar }) {
    }, [mode])
 
    const handleChangeMode = () => {
-      dispatch(parameterAction.changeMode(mode === 1 ? 0 : 1))
+      // disable change mode button when mode is changing
+      if (!modeChanging) {
+         dispatch(parameterAction.changeMode(mode === 1 ? 0 : 1))
+         setModeChanging(true)
+         console.log('setModeChanging(true)')
+         setTimeout(() => {
+            setModeChanging(false)
+         }, 2000)
+      }
    }
 
    return (

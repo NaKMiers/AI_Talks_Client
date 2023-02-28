@@ -1,12 +1,12 @@
 import { combineReducers } from 'redux'
 import userReducer from './userReducer'
 import parameterReducer from './parameterReducer'
-import messageReducer from './messageReducer'
+import promptReducer from './promptReducer'
 
 const reducers = combineReducers({
    userReducer,
    parameterReducer,
-   messageReducer,
+   promptReducer,
 })
 
 export default reducers

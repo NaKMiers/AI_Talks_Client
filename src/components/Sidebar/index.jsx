@@ -112,6 +112,7 @@ function Sidebar({ showSidebar, setShowSidebar }) {
             paramsMode0.forEach(item => (item.ref.current.style.display = item.display))
          }
       } else if (modeChanged) {
+         resetRef.current.style.opacity = 0
          if (mode === 1) {
             paramsMode0.forEach(item => (item.ref.current.style.opacity = 0))
             setTimeout(() => {
@@ -123,6 +124,7 @@ function Sidebar({ showSidebar, setShowSidebar }) {
 
             setTimeout(() => {
                paramsMode1.forEach(item => (item.ref.current.style.opacity = 1))
+               resetRef.current.style.opacity = 1
             }, 990) // time = display + transition = 500 + 500 = 1000ms
          } else if (mode === 0) {
             paramsMode1.forEach(item => (item.ref.current.style.opacity = 0))
@@ -135,6 +137,7 @@ function Sidebar({ showSidebar, setShowSidebar }) {
 
             setTimeout(() => {
                paramsMode0.forEach(item => (item.ref.current.style.opacity = 1))
+               resetRef.current.style.opacity = 1
             }, 990) // time = display + transition = 500 + 500 = 1000ms
          }
       }

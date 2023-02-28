@@ -30,3 +30,8 @@
    background: none;
    color: var(--app-text1);
 }
+
+.disabled {
+   opacity: 0.5;
+   pointer-events: none;
+}

@@ -10,7 +10,7 @@ function Message({ data }) {
             {data.images.map((img, i) => (
                <img
                   key={i}
-                  src={img}
+                  src={img.url}
                   alt='ai-response'
                   className={styles.imgRes}
                   onError={e => {
