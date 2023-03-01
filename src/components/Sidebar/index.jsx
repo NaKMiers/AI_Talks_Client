@@ -1,16 +1,18 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import parameterAction from '../../action/parameterAction'
+import userAction from '../../action/userAction'
+import userApi from '../../apis/userApi'
 import { GroupByName } from '../../data/modelData'
 import Themes from '../Themes'
 import UserBlock from '../UserBlock'
 import styles from './sidebar.module.scss'
 
 function Sidebar({ showSidebar, setShowSidebar }) {
-   const dispath = useDispatch()
-   const { model, maxTokens, temperature, amount, size, mode, modeChanged } = useSelector(
-      state => state.parameterReducer
-   )
+   const dispatch = useDispatch()
+   const user = useSelector(state => state.userReducer.user)
+   const parameters = useSelector(state => state.parameterReducer)
+   const { model, maxTokens, temperature, amount, size, mode, modeChanged } = user || parameters
 
    const [groupBy, setGroupBy] = useState('name')
    const fixedSize = ['256x256', '512x512', '1024x1024']
@@ -68,7 +70,6 @@ function Sidebar({ showSidebar, setShowSidebar }) {
       ],
       []
    )
-
    const paramsMode0 = useMemo(
       () => [
          {
@@ -143,35 +144,56 @@ function Sidebar({ showSidebar, setShowSidebar }) {
       }
    }, [mode, modeChanged, paramsMode0, paramsMode1])
 
-   const handleChangeParameter = (type, value) => {
+   //
+
+   const handleChangeParameter = async (type, value) => {
+      let newState = user ? { ...user, [type]: value } : { ...parameters, [type]: value }
+
       switch (type) {
-         case 'model': {
-            dispath(parameterAction.changeModel(value))
-            break
-         }
-         case 'maxTokens': {
-            dispath(parameterAction.changeMaxTokens(value))
-            break
-         }
-         case 'temperature': {
-            dispath(parameterAction.changeTemperature(value))
-            break
-         }
-         case 'size': {
-            console.log(value)
-            dispath(parameterAction.changeSize(fixedSize[value]))
-            break
-         }
+         case 'model':
+         case 'maxTokens':
+         case 'temperature':
+         case 'size':
          case 'amount': {
-            dispath(parameterAction.changeAmount(value))
-            break
-         }
-         case 'mode': {
-            dispath(parameterAction.changeMode(value))
+            if (user) {
+               try {
+                  const res = await userApi.changeParameter(user._id, newState)
+                  console.log('res: ', res.data)
+                  dispatch(userAction.changeParameter(res.data))
+               } catch (err) {
+                  console.log(err)
+               }
+            } else {
+               console.log(12323)
+               dispatch(parameterAction.changeParameter(newState))
+            }
             break
          }
          case 'reset': {
-            dispath(parameterAction.reset())
+            let resetObject = null
+            if (mode === 1) {
+               resetObject = {
+                  theme: 0,
+                  model: 'text-davinci-003',
+                  maxTokens: 100,
+                  temperature: 0.5,
+               }
+            } else if (mode === 0) {
+               resetObject = { size: '256x256', amount: 1 }
+            }
+
+            newState = user ? { ...user, ...resetObject } : { ...parameters, ...resetObject }
+
+            if (user) {
+               try {
+                  const res = await userApi.changeParameter(user._id, newState)
+                  dispatch(userAction.changeParameter(res.data))
+               } catch (err) {
+                  console.log(err)
+               }
+            } else {
+               dispatch(parameterAction.changeParameter(newState))
+            }
             break
          }
          default:
@@ -331,7 +353,9 @@ function Sidebar({ showSidebar, setShowSidebar }) {
                   onClick={() =>
                      handleChangeParameter(
                         'size',
-                        fixedSize.indexOf(size) > 0 ? fixedSize.indexOf(size) - 1 : 2
+                        fixedSize.indexOf(size) > 0
+                           ? fixedSize[fixedSize.indexOf(size) - 1]
+                           : fixedSize[2]
                      )
                   }
                >
@@ -343,7 +367,9 @@ function Sidebar({ showSidebar, setShowSidebar }) {
                   onClick={() =>
                      handleChangeParameter(
                         'size',
-                        fixedSize.indexOf(size) < 2 ? fixedSize.indexOf(size) + 1 : 0
+                        fixedSize.indexOf(size) < 2
+                           ? fixedSize[fixedSize.indexOf(size) + 1]
+                           : fixedSize[0]
                      )
                   }
                >
@@ -351,6 +377,7 @@ function Sidebar({ showSidebar, setShowSidebar }) {
                </button>
             </div>
 
+            {/* reset button */}
             <button
                ref={resetRef}
                className={styles.resetBtn}

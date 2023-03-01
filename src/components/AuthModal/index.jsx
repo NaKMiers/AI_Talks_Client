@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import styles from './authModal.module.scss'
-import userApi from '../../apis/userApi'
 import userAction from '../../action/userAction'
-import { useRef } from 'react'
+import userApi from '../../apis/userApi'
+import styles from './authModal.module.scss'
 
 function AuthModal({ open, setOpen }) {
    const [isSignUp, setSignUp] = useState(false)

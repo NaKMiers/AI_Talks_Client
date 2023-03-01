@@ -2,6 +2,8 @@ import '@fortawesome/fontawesome-free/css/all.min.css'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import parameterAction from './action/parameterAction'
+import userAction from './action/userAction'
+import userApi from './apis/userApi'
 import styles from './App.module.scss'
 import ChatBody from './components/ChatBody'
 import Header from './components/Header'
@@ -11,15 +13,31 @@ import themeData from './data/themeData'
 
 function App() {
    const dispatch = useDispatch()
-   const { user } = useSelector(state => state.userReducer)
-   const { mode, theme } = useSelector(state => state.parameterReducer)
+   const user = useSelector(state => state.userReducer.user)
+   const parameters = useSelector(state => state.parameterReducer)
+   const { theme } = user || parameters
    const [showSidebar, setShowSidebar] = useState(true)
 
    const themeObj = themeData[theme]
 
    useEffect(() => {
-      dispatch(parameterAction.reserModeChanged())
-   }, [dispatch])
+      const getUserData = async () => {
+         try {
+            const res = await userApi.getUserData(user._id)
+            console.log('res-user-data: ', res.data)
+            dispatch(userAction.setUserData(res.data))
+         } catch (err) {
+            console.log(err)
+         }
+      }
+
+      if (user?._id) {
+         dispatch(userAction.resetModeChanged())
+         getUserData()
+      } else {
+         dispatch(parameterAction.resetModeChanged())
+      }
+   }, [user?._id, dispatch])
 
    return (
       <div

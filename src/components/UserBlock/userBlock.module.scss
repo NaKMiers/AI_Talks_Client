@@ -1,8 +1,12 @@
 // User
 .userBlock {
+   position: absolute;
+   bottom: 0;
+   left: 0;
    display: flex;
    flex-direction: column;
-   flex-grow: 1;
+   padding: var(--sidebar-padding);
+   // flex-grow: 1;
    width: 100%;
    justify-content: flex-end;
 }

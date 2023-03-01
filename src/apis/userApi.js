@@ -10,10 +10,13 @@ API.interceptors.request.use(req => {
 })
 
 const userApi = {
+   getUserData: id => API.get(`/users/${id}`),
    login: data => API.post('/auth/login', data),
    register: data => API.post('/auth/register', data),
-   changeTheme: (id, theme) => API.patch(`/users/${id}/change-theme`, { theme }),
    changeAvatar: (id, data) => API.patch(`/users/${id}/change-avatar`, data),
+
+   // change pamameter
+   changeParameter: (id, data) => API.patch(`/users/${id}/change-parameter`, { data }),
 }
 
 export default userApi

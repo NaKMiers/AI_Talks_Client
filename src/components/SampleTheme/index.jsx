@@ -1,34 +1,36 @@
-import React, { useEffect, useState } from 'react'
-import styles from './sampleTheme.module.scss'
-import userApi from '../../apis/userApi'
-import { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import parameterAction from '../../action/parameterAction'
+import userAction from '../../action/userAction'
+import userApi from '../../apis/userApi'
+import styles from './sampleTheme.module.scss'
 
 function SampleTheme({ data, changing, setChanging }) {
    const dispatch = useDispatch()
-   const { user } = useSelector(state => state.userReducer)
-   const { theme } = useSelector(state => state.parameterReducer)
+   const user = useSelector(state => state.userReducer.user)
+   const parameters = useSelector(state => state.parameterReducer)
+   const { theme } = user || parameters
+
    const [loading, setLoading] = useState(false)
    const timeoutRef = useRef(null)
 
    const handleChangeTheme = () => {
       // if this theme is changing, other theme can't change
-      console.log(data)
       if (!changing) {
          setLoading(true)
          setChanging(true)
 
          timeoutRef.current = setTimeout(async () => {
+            const newState = user ? { ...user, theme: data.index } : { ...parameters, theme: data.index }
             if (user) {
                try {
-                  console.log(12312323)
-                  // const res = await userApi.changeTheme()
+                  const res = await userApi.changeParameter(user._id, newState)
+                  dispatch(userAction.changeParameter(res.data))
                } catch (err) {
                   console.log(err)
                }
             } else {
-               dispatch(parameterAction.changeTheme(data.index))
+               dispatch(parameterAction.changeParameter(newState))
             }
 
             setLoading(false)

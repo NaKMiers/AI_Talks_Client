@@ -2,26 +2,43 @@ import '@fortawesome/fontawesome-free/css/all.min.css'
 import React, { useLayoutEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import parameterAction from '../../action/parameterAction'
+import userAction from '../../action/userAction'
+import userApi from '../../apis/userApi'
 import styles from './header.module.scss'
 
 function Header({ setShowSidebar }) {
    const dispatch = useDispatch()
-   const { mode } = useSelector(state => state.parameterReducer)
+   const user = useSelector(state => state.userReducer.user)
+   const parameters = useSelector(state => state.parameterReducer)
+   const { mode } = user || parameters
 
    const [modeChanging, setModeChanging] = useState(false)
-
    const pistonRef = useRef()
 
    useLayoutEffect(() => {
       pistonRef.current.style.marginTop = mode === 1 ? -1.3 + 'rem' : 0
    }, [mode])
 
-   const handleChangeMode = () => {
+   const handleChangeMode = async () => {
       // disable change mode button when mode is changing
       if (!modeChanging) {
-         dispatch(parameterAction.changeMode(mode === 1 ? 0 : 1))
          setModeChanging(true)
-         console.log('setModeChanging(true)')
+
+         if (user) {
+            try {
+               const res = await userApi.changeParameter(user._id, {
+                  ...user,
+                  mode: mode === 1 ? 0 : 1,
+               })
+               console.log('res-mode: ', res.data)
+               dispatch(userAction.changeMode(res.data))
+            } catch (err) {
+               console.log(err)
+            }
+         } else {
+            dispatch(parameterAction.changeMode(mode === 1 ? 0 : 1))
+         }
+
          setTimeout(() => {
             setModeChanging(false)
          }, 2000)

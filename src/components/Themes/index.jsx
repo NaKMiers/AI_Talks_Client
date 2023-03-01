@@ -5,7 +5,10 @@ import SampleTheme from '../SampleTheme'
 import styles from './themes.module.scss'
 
 function Themes() {
-   const { mode, modeChanged } = useSelector(state => state.parameterReducer)
+   const user = useSelector(state => state.userReducer.user)
+   const parameters = useSelector(state => state.parameterReducer)
+   const { mode, modeChanged } = user || parameters
+
    const [changing, setChanging] = useState(false)
    const [slide, setSlide] = useState(1)
    const themeRef = useRef()
@@ -18,9 +21,7 @@ function Themes() {
          const heigth = width >= 192 ? (width * 2) / 3 - 3 : width
          themeRef.current.style.height = Math.ceil(heigth) + 'px'
       }
-
       handleResize()
-
       window.addEventListener('resize', handleResize)
 
       return () => {
@@ -28,6 +29,7 @@ function Themes() {
       }
    }, [])
 
+   // change mode animation sidebar
    useEffect(() => {
       if (!modeChanged) {
          if (mode === 1) {
