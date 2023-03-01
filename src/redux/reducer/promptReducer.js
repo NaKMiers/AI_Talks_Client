@@ -2,37 +2,17 @@ import types from '../../constants/promptAction'
 
 const initState = JSON.parse(localStorage.getItem('prompts')) || {
    loading: false,
-   promptsMode1: [
-      // {
-      //    userId: 12313,
-      //    type: 'user',
-      //    text: 'Hi',
-      // },
-      // {
-      //    userId: 12313,
-      //    type: 'ai',
-      //    text: 'Ok!',
-      // },
-   ],
-   promptsMode0: [
-      // {
-      //    userId: 12313,
-      //    type: 'user',
-      //    text: 'Hi Ai.',
-      // },
-      // {
-      //    userId: 12313,
-      //    type: 'ai-image',
-      //    images: ['', ''],
-      // },
-   ],
+   promptsMode1: [],
+   promptsMode0: [],
 }
 
 function promptReducer(state = initState, action) {
    let newState = null
    switch (action.type) {
       case types.LOADING:
-         return { ...state, loading: action.payload }
+         newState = { ...state, loading: action.payload }
+         localStorage.setItem('prompts', JSON.stringify(newState))
+         return newState
 
       case types.SEND_PROMPT_MODE1:
          newState = { ...state, promptsMode1: [...state.promptsMode1, action.payload] }

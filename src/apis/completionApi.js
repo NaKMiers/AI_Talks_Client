@@ -9,7 +9,11 @@ API.interceptors.request.use(req => {
 })
 
 const completionApi = {
-   createPrompt: (prompt, id = 0) => API.post(`/completions/${id}`, { prompt }),
+   createCompletion: data => API.post('/completions', data),
+
+   getPrompts: id => API.get(`/completions/${id}`),
+   createFullCompletion: (id, data) => API.post(`/completions/${id}`, data),
+   createPrompt: (id, prompt) => API.post(`/completions/${id}/prompt`, { prompt }),
 }
 
 export default completionApi

@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import styles from './message.module.scss'
+import { format } from 'timeago.js'
 
 function Message({ data }) {
    const [showTime, setShowTime] = useState(false)
@@ -10,7 +11,7 @@ function Message({ data }) {
             {data.images.map((img, i) => (
                <img
                   key={i}
-                  src={img.url}
+                  src={img}
                   alt='ai-response'
                   className={styles.imgRes}
                   onError={e => {
@@ -23,11 +24,13 @@ function Message({ data }) {
       </div>
    ) : (
       <div
-         className={data.type === 'user' ? styles.userMessage : styles.aiMessage}
+         className={
+            data.type === 'user' || data.type === 'user-image' ? styles.userMessage : styles.aiMessage
+         }
          onClick={() => setShowTime(!showTime)}
       >
          <div>{data.text}</div>
-         <span className={`${styles.time} ${showTime && styles.active}`}>2 minutes </span>
+         <span className={`${styles.time} ${showTime && styles.active}`}>{format(data.createdAt)}</span>
       </div>
    )
 }

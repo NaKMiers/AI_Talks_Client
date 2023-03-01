@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import userAction from '../../action/userAction'
+import userPromptAction from '../../action/userPromptAction'
 import userApi from '../../apis/userApi'
 import AuthModal from '../AuthModal'
 import styles from './userBlock.module.scss'
@@ -18,6 +19,7 @@ function UserBlock() {
 
    const handleLogout = async () => {
       dispatch(userAction.logout())
+      dispatch(userPromptAction.clear())
    }
 
    const handleChangeAvatar = async e => {

@@ -1,20 +1,32 @@
 import '@fortawesome/fontawesome-free/css/all.min.css'
 import React, { useEffect, useRef } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import completionApi from '../../apis/completionApi'
+import imageApi from '../../apis/imageApi'
+import userPromptAction from '../../action/userPromptAction'
+import promptAction from '../../action/promptAction'
 import Message from '../Message'
 import styles from './chatBody.module.scss'
 
 function ChatBody() {
-   const { mode, modeChanged } = useSelector(state => state.parameterReducer)
-   const { loading } = useSelector(state => state.promptReducer)
-   const { promptsMode1, promptsMode0 } = useSelector(state => state.promptReducer)
+   const dispatch = useDispatch()
+   const user = useSelector(state => state.userReducer.user)
+   const parameters = useSelector(state => state.parameterReducer)
+   const { mode, modeChanged } = user || parameters
 
-   const scrollRef = useRef(null)
+   const userPrompts = useSelector(state => state.userPromptReducer)
+   const prompts = useSelector(state => state.promptReducer)
+   const { loading, promptsMode1, promptsMode0 } = user ? userPrompts : prompts
+
+   const scrollRefMode1 = useRef(null)
+   const scrollRefMode0 = useRef(null)
    const wrapMode1Ref = useRef(null)
    const wrapMode0Ref = useRef(null)
 
+   // scroll into view
    useEffect(() => {
-      scrollRef.current?.scrollIntoView({ behavior: 'smooth' })
+      scrollRefMode1.current?.scrollIntoView({ behavior: 'smooth' })
+      scrollRefMode0.current?.scrollIntoView({ behavior: 'smooth' })
    })
 
    // animation when mode change
@@ -66,6 +78,31 @@ function ChatBody() {
       }
    }, [mode, modeChanged])
 
+   // get prompts + get images
+   useEffect(() => {
+      const getPromptsMode1 = async () => {
+         try {
+            const res = await completionApi.getPrompts(user._id)
+            console.log('res-prompt-mode1: ', res.data)
+            dispatch(userPromptAction.setPromptsMode1(res.data))
+         } catch (err) {
+            console.log(err)
+         }
+      }
+      const getPromptsMode0 = async () => {
+         try {
+            const res = await imageApi.getImages(user._id)
+            console.log('res-prompt-mode0: ', res.data)
+            dispatch(userPromptAction.setPromptsMode0(res.data))
+         } catch (err) {
+            console.log(err)
+         }
+      }
+      if (user) {
+         mode === 1 ? getPromptsMode1() : getPromptsMode0()
+      }
+   }, [user, mode, dispatch])
+
    const renderMesssageMode1 = () => promptsMode1.map((data, i) => <Message key={i} data={data} />)
    const renderMesssageMode0 = () => promptsMode0.map((data, i) => <Message key={i} data={data} />)
 
@@ -80,7 +117,7 @@ function ChatBody() {
                </div>
             )}
 
-            <div ref={scrollRef} className={styles.theLast} />
+            <div ref={scrollRefMode1} className={styles.theLast} />
          </div>
          <div ref={wrapMode0Ref} className={styles.body}>
             {renderMesssageMode0()}
@@ -91,7 +128,7 @@ function ChatBody() {
                </div>
             )}
 
-            <div ref={scrollRef} className={styles.theLast} />
+            <div ref={scrollRefMode0} className={styles.theLast} />
          </div>
       </>
    )

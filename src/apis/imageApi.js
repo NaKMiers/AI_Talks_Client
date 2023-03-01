@@ -9,7 +9,11 @@ API.interceptors.request.use(req => {
 })
 
 const imageApi = {
-   generateImage: (prompt, amount, size, id = 0) => API.post(`/images/${id}`, { prompt, amount, size }),
+   generateImage: data => API.post('/images', data),
+
+   getImages: id => API.get(`/images/${id}`),
+   generateFullImage: (id, data) => API.post(`/images/${id}`, data),
+   createPrompt: (id, prompt) => API.post(`/images/${id}/prompt`, { prompt }),
 }
 
 export default imageApi
