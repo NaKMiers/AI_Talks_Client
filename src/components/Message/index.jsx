@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
-import styles from './message.module.scss'
+import React, { memo, useState } from 'react'
 import { format } from 'timeago.js'
+import styles from './message.module.scss'
 
 function Message({ data }) {
    const [showTime, setShowTime] = useState(false)
@@ -9,18 +9,20 @@ function Message({ data }) {
       <div className={styles.aiImage} onClick={() => setShowTime(!showTime)}>
          <div>
             {data.images.map((img, i) => (
-               <img
-                  key={i}
-                  src={img}
-                  alt='ai-response'
-                  className={styles.imgRes}
-                  onError={e => {
-                     console.log((e.target.src = 'assets/default.png'))
-                  }}
-               />
+               <div key={i} className={styles.imageWrap}>
+                  <img
+                     src={img}
+                     alt='ai-response'
+                     className={styles.imgRes}
+                     onError={e => (e.target.src = 'assets/default.png')}
+                  />
+                  <button className={styles.downloadBtn}>
+                     <i className='fa-solid fa-download' />
+                  </button>
+               </div>
             ))}
          </div>
-         <span className={`${styles.time} ${showTime && styles.active}`}>2 minutes ago</span>
+         <span className={`${styles.time} ${showTime && styles.active}`}>{format(data.createdAt)}</span>
       </div>
    ) : (
       <div
@@ -35,4 +37,4 @@ function Message({ data }) {
    )
 }
 
-export default Message
+export default memo(Message)

@@ -78,9 +78,6 @@ function UserBlock() {
                   <span className={styles.error}>{error && '*' + error}</span>
                </div>
                <div className={`${styles.collapseUserContent} ${collapseUser && styles.active}`}>
-                  <div>
-                     <i className='fa-solid fa-gear' /> Setting
-                  </div>
                   <div onClick={handleLogout}>
                      <i className='fa-solid fa-arrow-right-from-bracket' /> Logout
                   </div>

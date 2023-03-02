@@ -13,7 +13,7 @@
 
    // Tablet 768px - 1024px
    @media screen and (max-width: 64rem) {
-      // position: fixed;
+      position: fixed;
    }
 
    // Mobile < 768px
@@ -250,7 +250,15 @@
    color: var(--app-text1);
 }
 
-.resetBtn {
+.buttonWrap {
+   display: flex;
+   justify-content: flex-end;
+   align-items: center;
+
+   transition: all 0.4s ease-in-out;
+}
+
+.sidebarBtn {
    position: relative;
    display: inline-block;
    align-self: center;
@@ -258,10 +266,27 @@
    color: var(--app-text1);
    background: none;
    padding: 0 0.5rem;
+   border-radius: 0.4rem;
 
    transition: all 0.4s ease-in-out;
 
-   &:after {
+   & > img {
+      width: 1.5rem;
+   }
+
+   &.reset {
+      width: 3.2rem;
+   }
+
+   &.save {
+      width: 2.9rem;
+      &.active {
+         background: #e8c63d;
+         animation: wave 0.5s linear infinite;
+      }
+   }
+
+   &:not(.loading):after {
       content: '';
       position: absolute;
       bottom: 0.5rem;
@@ -274,6 +299,18 @@
    }
 
    &:hover:after {
-      width: 2.2rem;
+      width: 70%;
+   }
+}
+
+@keyframes wave {
+   0% {
+      transform: rotate(-2deg);
+   }
+   50% {
+      transform: rotate(2deg);
+   }
+   100% {
+      transform: rotate(-2deg);
    }
 }

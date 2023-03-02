@@ -1,11 +1,11 @@
 import '@fortawesome/fontawesome-free/css/all.min.css'
 import React, { useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import styles from './input.module.scss'
 import promptAction from '../../action/promptAction'
 import userPromptAction from '../../action/userPromptAction'
 import completionApi from '../../apis/completionApi'
 import imageApi from '../../apis/imageApi'
+import styles from './input.module.scss'
 
 function Input() {
    const dispatch = useDispatch()
@@ -18,6 +18,7 @@ function Input() {
    const { loading, promptsMode1, promptsMode0 } = user ? userPrompts : prompts
 
    const [prompt, setPrompt] = useState('')
+   const [clearLoading, setClearLoading] = useState(false)
    const inputRef = useRef(null)
 
    const setHeight = () => {
@@ -37,11 +38,11 @@ function Input() {
                   createdAt: Date.now(),
                })
             )
+            setPrompt('')
 
             const res = await completionApi.createCompletion({ prompt: newText })
             dispatch(promptAction.receiveCompletion({ ...res.data, type: 'ai' }))
             dispatch(promptAction.loading(false))
-            setPrompt('')
          } catch (err) {
             dispatch(promptAction.loading(false))
             console.log(err)
@@ -55,6 +56,7 @@ function Input() {
             const res1 = await completionApi.createPrompt(user._id, prompt.trim())
             console.log('res1: ', res1.data)
             dispatch(userPromptAction.sendPromptMode1(res1.data))
+            setPrompt('')
 
             const res2 = await completionApi.createFullCompletion(user._id, {
                prompt: newText,
@@ -65,7 +67,6 @@ function Input() {
             console.log('res2: ', res2.data)
             dispatch(userPromptAction.receiveCompletion(res2.data))
             dispatch(userPromptAction.loading(false))
-            setPrompt('')
          } catch (err) {
             dispatch(userPromptAction.loading(false))
             console.log(err)
@@ -83,12 +84,12 @@ function Input() {
                   createdAt: Date.now(),
                })
             )
+            setPrompt('')
 
             const res = await imageApi.generateImage({ prompt: prompt.trim(), amount, size })
             console.log('res1', res.data)
             dispatch(promptAction.receiveImage({ images: res.data, type: 'ai-image' }))
             dispatch(promptAction.loading(false))
-            setPrompt('')
          } catch (err) {
             dispatch(promptAction.loading(false))
             console.log(err)
@@ -103,6 +104,7 @@ function Input() {
             const res1 = await imageApi.createPrompt(user._id, prompt.trim())
             console.log('res1: ', res1.data)
             dispatch(userPromptAction.sendPromptMode0(res1.data))
+            setPrompt('')
 
             const res2 = await imageApi.generateFullImage(user._id, {
                prompt: prompt.trim(),
@@ -112,7 +114,6 @@ function Input() {
             console.log('res2: ', res2.data)
             dispatch(userPromptAction.receiveImage(res2.data))
             dispatch(userPromptAction.loading(false))
-            setPrompt('')
          } catch (err) {
             dispatch(userPromptAction.loading(false))
             console.log(err)
@@ -142,8 +143,86 @@ function Input() {
       }
    }
 
+   const handleClearConversation = () => {
+      const handleClearConversationMode1NoLogin = async () => {
+         console.log('handleClearConversationMode1NoLogin')
+         setClearLoading(true)
+
+         setTimeout(() => {
+            dispatch(promptAction.clearMode1())
+            setClearLoading(false)
+         }, 1000)
+      }
+
+      const handleClearConversationMode1Logined = async () => {
+         console.log('handleClearConversationMode1Logined')
+         setClearLoading(true)
+
+         try {
+            const res = await completionApi.clearCompletions(user._id)
+            console.log('res-clearCompletions: ', res.data)
+            dispatch(userPromptAction.clearMode1())
+            setClearLoading(false)
+         } catch (err) {
+            setClearLoading(false)
+            console.log(err)
+         }
+      }
+
+      const handleClearConversationMode0NoLogin = async () => {
+         console.log('handleClearConversationMode0NoLogin')
+         setClearLoading(true)
+
+         setTimeout(() => {
+            dispatch(promptAction.clearMode0())
+            setClearLoading(false)
+         }, 1000)
+      }
+
+      const handleClearConversationMode0Logined = async () => {
+         console.log('handleClearConversationMode0Logined')
+         setClearLoading(true)
+
+         try {
+            const res = await imageApi.clearImages(user._id)
+            console.log('res-clearImages: ', res.data)
+            dispatch(userPromptAction.clearMode0())
+            setClearLoading(false)
+         } catch (err) {
+            setClearLoading(false)
+            console.log(err)
+         }
+      }
+
+      if (mode === 1) {
+         if (user) {
+            promptsMode1.length && handleClearConversationMode1Logined()
+         } else {
+            promptsMode1.length && handleClearConversationMode1NoLogin()
+         }
+      } else if (mode === 0) {
+         if (user) {
+            promptsMode0.length && handleClearConversationMode0Logined()
+         } else {
+            promptsMode0.length && handleClearConversationMode0NoLogin()
+         }
+      }
+   }
+
    return (
       <div className={styles.inputContainer}>
+         <button
+            className={`${styles.inputBtn} ${loading && styles.disabled}`}
+            onClick={handleClearConversation}
+            disabled={loading}
+            tooltip='Clear Conversation'
+         >
+            {clearLoading ? (
+               <img className={styles.loading} src='assets/spin.gif' alt='loading' />
+            ) : (
+               <i className='fa-solid fa-trash-can' />
+            )}
+         </button>
          <textarea
             ref={inputRef}
             className={styles.inputText}
@@ -153,9 +232,10 @@ function Input() {
             onChange={e => setPrompt(e.target.value)}
          />
          <button
-            className={`${styles.sendBtn} ${loading && styles.disabled}`}
+            className={`${styles.inputBtn} ${loading && styles.disabled}`}
             onClick={handleSend}
             disabled={loading}
+            tooltip='send'
          >
             <i className='fa-solid fa-paper-plane' />
          </button>

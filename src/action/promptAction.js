@@ -6,6 +6,9 @@ const userAction = {
    sendPromptMode0: payload => ({ type: types.SEND_PROMPT_MODE0, payload }),
    receiveCompletion: payload => ({ type: types.RECEIVE_COMPLETION, payload }),
    receiveImage: payload => ({ type: types.RECEIVE_IMAGE, payload }),
+
+   clearMode1: () => ({ type: types.CLEAR_MODE1 }),
+   clearMode0: () => ({ type: types.CLEAR_MODE0 }),
 }
 
 export default userAction

@@ -14,6 +14,8 @@ const imageApi = {
    getImages: id => API.get(`/images/${id}`),
    generateFullImage: (id, data) => API.post(`/images/${id}`, data),
    createPrompt: (id, prompt) => API.post(`/images/${id}/prompt`, { prompt }),
+
+   clearImages: id => API.delete(`/images/${id}/clear`),
 }
 
 export default imageApi

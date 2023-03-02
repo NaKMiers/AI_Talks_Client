@@ -14,6 +14,8 @@ const completionApi = {
    getPrompts: id => API.get(`/completions/${id}`),
    createFullCompletion: (id, data) => API.post(`/completions/${id}`, data),
    createPrompt: (id, prompt) => API.post(`/completions/${id}/prompt`, { prompt }),
+
+   clearCompletions: id => API.delete(`/completions/${id}/clear`),
 }
 
 export default completionApi

@@ -1,4 +1,5 @@
-import React, { useRef, useState } from 'react'
+import React, { useCallback, useRef, useState } from 'react'
+import { memo } from 'react'
 import { useDispatch } from 'react-redux'
 import userAction from '../../action/userAction'
 import userApi from '../../apis/userApi'
@@ -15,42 +16,49 @@ function AuthModal({ open, setOpen }) {
 
    const dispatch = useDispatch()
 
-   const handleSubmit = async e => {
-      e.preventDefault()
-      const data = { username, password }
-
-      try {
-         if (isSignUp) {
-            const res = await userApi.register(data)
-            dispatch(userAction.register(res.data))
-         } else {
-            const res = await userApi.login(data)
-            dispatch(userAction.login(res.data))
-         }
-
-         setUsername('')
-         setPassword('')
-         closeModal()
-      } catch (err) {
-         console.log(err)
-      }
-   }
-
-   const closeModal = () => {
+   // close modal on click outside and after login-signup
+   const closeModal = useCallback(() => {
       modalRef.current.classList.add(styles.close)
       setTimeout(() => {
          modalRef.current.classList.remove(styles.close)
          modalRef.current.style.display = 'none'
          setOpen(false)
       }, 299)
-   }
+   }, [setOpen])
 
-   // Close modal when click outside
-   const handleClickOutside = e => {
-      if (modalContentRef.current && !modalContentRef.current.contains(e.target)) {
-         closeModal()
-      }
-   }
+   const handleSubmit = useCallback(
+      async e => {
+         e.preventDefault()
+         const data = { username, password }
+
+         try {
+            if (isSignUp) {
+               const res = await userApi.register(data)
+               dispatch(userAction.register(res.data))
+            } else {
+               const res = await userApi.login(data)
+               dispatch(userAction.login(res.data))
+            }
+
+            setUsername('')
+            setPassword('')
+            closeModal()
+         } catch (err) {
+            console.log(err)
+         }
+      },
+      [username, password, isSignUp, dispatch, closeModal]
+   )
+
+   // close modal on click outside of modal body
+   const handleClickOutside = useCallback(
+      e => {
+         if (modalContentRef.current && !modalContentRef.current.contains(e.target)) {
+            closeModal()
+         }
+      },
+      [closeModal]
+   )
 
    return (
       <div
@@ -114,4 +122,4 @@ function AuthModal({ open, setOpen }) {
    )
 }
 
-export default AuthModal
+export default memo(AuthModal)

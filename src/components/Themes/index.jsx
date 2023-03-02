@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
+import { useLayoutEffect } from 'react'
 import { useSelector } from 'react-redux'
 import themeData from '../../data/themeData'
 import SampleTheme from '../SampleTheme'
@@ -11,9 +12,14 @@ function Themes() {
 
    const [changing, setChanging] = useState(false)
    const [slide, setSlide] = useState(1)
+   const [maxSlide, setMaxSlide] = useState(0)
    const themeRef = useRef()
    const slideRef = useRef()
    const pistonRef = useRef()
+   const slideDownBtn = useRef()
+   const slideUpBtn = useRef()
+
+   console.log('maxSlide: ', maxSlide)
 
    useEffect(() => {
       const handleResize = () => {
@@ -69,13 +75,38 @@ function Themes() {
       }
    }, [mode, modeChanged])
 
+   // set max slide
+   useEffect(() => {
+      setMaxSlide(
+         themeRef.current.offsetWidth > 192
+            ? Math.ceil(themeData.length / 6)
+            : Math.ceil(themeData.length / 4)
+      )
+   }, [])
+
+   // slide button animation
+   useLayoutEffect(() => {
+      if (slide === 1) {
+         // only down button
+         slideDownBtn.current.style.display = 'flex'
+         slideUpBtn.current.style.display = 'none'
+         slideDownBtn.current.style.width = '100%'
+      } else if (slide === maxSlide) {
+         // only up button
+         slideUpBtn.current.style.display = 'flex'
+         slideDownBtn.current.style.display = 'none'
+         slideUpBtn.current.style.width = '100%'
+      } else {
+         slideDownBtn.current.style.display = 'flex'
+         slideUpBtn.current.style.width = '50%'
+         slideUpBtn.current.style.display = 'flex'
+         slideDownBtn.current.style.width = '50%'
+      }
+   }, [slide, maxSlide])
+
    const handleSlide = direction => {
       if (direction === 'down') {
-         if (
-            themeRef.current.offsetWidth > 192
-               ? slide < Math.ceil(themeData.length / 6)
-               : slide < Math.ceil(themeData.length / 4)
-         ) {
+         if (slide < maxSlide) {
             pistonRef.current.style.marginBottom =
                -1 * slide * (themeRef.current.offsetHeight + 6) + 'px'
             setSlide(slide + 1)
@@ -98,10 +129,10 @@ function Themes() {
             ))}
          </div>
          <div ref={slideRef} className={styles.slideWrap}>
-            <button className={styles.slideBtn} onClick={() => handleSlide('down')}>
+            <button ref={slideDownBtn} className={styles.slideBtn} onClick={() => handleSlide('down')}>
                <i className='fa-solid fa-chevron-down' />
             </button>
-            <button className={styles.slideBtn} onClick={() => handleSlide('up')}>
+            <button ref={slideUpBtn} className={styles.slideBtn} onClick={() => handleSlide('up')}>
                <i className='fa-solid fa-chevron-up' />
             </button>
          </div>

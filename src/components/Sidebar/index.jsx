@@ -12,13 +12,31 @@ function Sidebar({ showSidebar, setShowSidebar }) {
    const dispatch = useDispatch()
    const user = useSelector(state => state.userReducer.user)
    const parameters = useSelector(state => state.parameterReducer)
-   const { model, maxTokens, temperature, amount, size, mode, modeChanged } = user || parameters
+   const {
+      model: initModel,
+      maxTokens: initMaxTokens,
+      temperature: initTemp,
+      amount: initAmount,
+      size: initSize,
+      mode,
+      modeChanged,
+   } = user || parameters
+
+   const [model, setModel] = useState(initModel)
+   const [maxTokens, setMaxTokens] = useState(initMaxTokens)
+   const [temperature, setTemperature] = useState(initTemp)
+   const [amount, setAmount] = useState(initAmount)
+   const [size, setSize] = useState(initSize)
 
    const [groupBy, setGroupBy] = useState('name')
+   const [reseting, setReseting] = useState(false)
+   const [saving, setSaving] = useState(false)
+   const [isChanged, setIsChanged] = useState(false)
    const fixedSize = ['256x256', '512x512', '1024x1024']
+   console.log('isChanged: ', isChanged)
 
    // DOM REF
-   const resetRef = useRef(null)
+   const buttonWrapRef = useRef(null)
    const modelLabelRef = useRef(null)
    const modelInputRef = useRef(null)
    const groupByRef = useRef(null)
@@ -113,7 +131,7 @@ function Sidebar({ showSidebar, setShowSidebar }) {
             paramsMode0.forEach(item => (item.ref.current.style.display = item.display))
          }
       } else if (modeChanged) {
-         resetRef.current.style.opacity = 0
+         buttonWrapRef.current.style.opacity = 0
          if (mode === 1) {
             paramsMode0.forEach(item => (item.ref.current.style.opacity = 0))
             setTimeout(() => {
@@ -125,7 +143,7 @@ function Sidebar({ showSidebar, setShowSidebar }) {
 
             setTimeout(() => {
                paramsMode1.forEach(item => (item.ref.current.style.opacity = 1))
-               resetRef.current.style.opacity = 1
+               buttonWrapRef.current.style.opacity = 1
             }, 990) // time = display + transition = 500 + 500 = 1000ms
          } else if (mode === 0) {
             paramsMode1.forEach(item => (item.ref.current.style.opacity = 0))
@@ -138,66 +156,101 @@ function Sidebar({ showSidebar, setShowSidebar }) {
 
             setTimeout(() => {
                paramsMode0.forEach(item => (item.ref.current.style.opacity = 1))
-               resetRef.current.style.opacity = 1
+               buttonWrapRef.current.style.opacity = 1
             }, 990) // time = display + transition = 500 + 500 = 1000ms
          }
       }
    }, [mode, modeChanged, paramsMode0, paramsMode1])
 
-   //
+   // check parameter is changed anything or not
+   useEffect(() => {
+      setIsChanged(
+         model !== initModel ||
+            maxTokens !== initMaxTokens ||
+            temperature !== initTemp ||
+            amount !== initAmount ||
+            size !== initSize
+      )
+   }, [
+      isChanged,
+      model,
+      initModel,
+      maxTokens,
+      initMaxTokens,
+      temperature,
+      initTemp,
+      amount,
+      initAmount,
+      size,
+      initSize,
+   ])
 
-   const handleChangeParameter = async (type, value) => {
-      let newState = user ? { ...user, [type]: value } : { ...parameters, [type]: value }
+   const handleChangeParameter = async type => {
+      let newState = user
+         ? { ...user, model, maxTokens, temperature, amount, size }
+         : { ...parameters, model, maxTokens, temperature, amount, size }
 
-      switch (type) {
-         case 'model':
-         case 'maxTokens':
-         case 'temperature':
-         case 'size':
-         case 'amount': {
-            if (user) {
-               try {
-                  const res = await userApi.changeParameter(user._id, newState)
-                  console.log('res: ', res.data)
+      const resetAllState = () => {
+         setModel(initModel)
+         setMaxTokens(initMaxTokens)
+         setTemperature(initTemp)
+         setAmount(initAmount)
+         setSize(initSize)
+         setReseting(false)
+      }
+
+      if (type === 'save') {
+         setSaving(true)
+         if (user) {
+            try {
+               const res = await userApi.changeParameter(user._id, newState)
+               console.log('res: ', res.data)
+               setTimeout(() => {
                   dispatch(userAction.changeParameter(res.data))
-               } catch (err) {
-                  console.log(err)
-               }
-            } else {
-               console.log(12323)
+                  setSaving(false)
+               }, 1000)
+            } catch (err) {
+               console.log(err)
+               setSaving(false)
+            }
+         } else {
+            setTimeout(() => {
                dispatch(parameterAction.changeParameter(newState))
-            }
-            break
+               setSaving(false)
+            }, 1200)
          }
-         case 'reset': {
-            let resetObject = null
-            if (mode === 1) {
-               resetObject = {
-                  theme: 0,
-                  model: 'text-davinci-003',
-                  maxTokens: 100,
-                  temperature: 0.5,
-               }
-            } else if (mode === 0) {
-               resetObject = { size: '256x256', amount: 1 }
+      } else if (type === 'reset') {
+         setReseting(true)
+         let resetObject = null
+         if (mode === 1) {
+            resetObject = {
+               model: 'text-davinci-003',
+               maxTokens: 100,
+               temperature: 0.5,
             }
+         } else if (mode === 0) {
+            resetObject = { size: '256x256', amount: 1 }
+         }
 
-            newState = user ? { ...user, ...resetObject } : { ...parameters, ...resetObject }
+         newState = user ? { ...user, ...resetObject } : { ...parameters, ...resetObject }
 
-            if (user) {
-               try {
-                  const res = await userApi.changeParameter(user._id, newState)
+         if (user) {
+            try {
+               const res = await userApi.changeParameter(user._id, newState)
+               setTimeout(() => {
                   dispatch(userAction.changeParameter(res.data))
-               } catch (err) {
-                  console.log(err)
-               }
-            } else {
-               dispatch(parameterAction.changeParameter(newState))
+                  resetAllState()
+               }, 1000)
+            } catch (err) {
+               console.log(err)
+               resetAllState()
             }
-            break
+         } else {
+            setTimeout(() => {
+               dispatch(parameterAction.changeParameter(newState))
+               resetAllState()
+            }, 1200)
          }
-         default:
-            throw new Error('Invalid Action')
       }
    }
 
@@ -241,7 +294,7 @@ function Sidebar({ showSidebar, setShowSidebar }) {
             <select
                ref={modelInputRef}
                value={model}
-               onChange={e => handleChangeParameter('model', e.target.value)}
+               onChange={e => setModel(e.target.value)}
                size={1}
                className={styles.selectModel}
                name='model'
@@ -268,9 +321,7 @@ function Sidebar({ showSidebar, setShowSidebar }) {
             <div ref={maxTokenInputRef} className={styles.maxTokenWrap}>
                <button
                   className={styles.maxTokenBtn}
-                  onClick={() =>
-                     handleChangeParameter('maxTokens', maxTokens > 50 ? maxTokens - 50 : maxTokens)
-                  }
+                  onClick={() => setMaxTokens(maxTokens > 50 ? maxTokens - 50 : maxTokens)}
                >
                   <i className='fa-solid fa-minus' />
                </button>
@@ -280,15 +331,11 @@ function Sidebar({ showSidebar, setShowSidebar }) {
                   min='1'
                   className={styles.maxTokenInput}
                   value={maxTokens}
-                  onChange={e =>
-                     handleChangeParameter('maxTokens', e.target.value ? e.target.value : 50)
-                  }
+                  onChange={e => setMaxTokens(e.target.value ? e.target.value : 50)}
                />
                <button
                   className={styles.maxTokenBtn}
-                  onClick={() =>
-                     handleChangeParameter('maxTokens', maxTokens < 1500 ? maxTokens + 50 : maxTokens)
-                  }
+                  onClick={() => setMaxTokens(maxTokens < 1500 ? maxTokens + 50 : maxTokens)}
                >
                   <i className='fa-solid fa-plus' />
                </button>
@@ -309,9 +356,7 @@ function Sidebar({ showSidebar, setShowSidebar }) {
                   min='0'
                   max='100'
                   value={temperature * 100}
-                  onChange={e =>
-                     handleChangeParameter('temperature', Math.floor(e.target.value / 10) / 10)
-                  }
+                  onChange={e => setTemperature(Math.floor(e.target.value / 10) / 10)}
                   id='myRange'
                />
                <span className={styles.temperature}>{Math.round((temperature * 100) / 10) / 10}</span>
@@ -330,14 +375,14 @@ function Sidebar({ showSidebar, setShowSidebar }) {
             <div ref={amountInputRef} className={styles.amountWrap}>
                <button
                   className={styles.amountBtn}
-                  onClick={() => handleChangeParameter('amount', amount > 1 ? amount - 1 : amount)}
+                  onClick={() => setAmount(amount > 1 ? amount - 1 : amount)}
                >
                   <i className='fa-solid fa-minus' />
                </button>
                <div className={styles.amountValue}>{amount}</div>
                <button
                   className={styles.amountBtn}
-                  onClick={() => handleChangeParameter('amount', amount < 10 ? amount + 1 : amount)}
+                  onClick={() => setAmount(amount < 10 ? amount + 1 : amount)}
                >
                   <i className='fa-solid fa-plus' />
                </button>
@@ -351,8 +396,7 @@ function Sidebar({ showSidebar, setShowSidebar }) {
                <button
                   className={styles.amountBtn}
                   onClick={() =>
-                     handleChangeParameter(
-                        'size',
+                     setSize(
                         fixedSize.indexOf(size) > 0
                            ? fixedSize[fixedSize.indexOf(size) - 1]
                            : fixedSize[2]
@@ -365,8 +409,7 @@ function Sidebar({ showSidebar, setShowSidebar }) {
                <button
                   className={styles.amountBtn}
                   onClick={() =>
-                     handleChangeParameter(
-                        'size',
+                     setSize(
                         fixedSize.indexOf(size) < 2
                            ? fixedSize[fixedSize.indexOf(size) + 1]
                            : fixedSize[0]
@@ -378,13 +421,30 @@ function Sidebar({ showSidebar, setShowSidebar }) {
             </div>
 
             {/* reset button */}
-            <button
-               ref={resetRef}
-               className={styles.resetBtn}
-               onClick={() => handleChangeParameter('reset')}
-            >
-               Reset
-            </button>
+            <div ref={buttonWrapRef} className={styles.buttonWrap}>
+               <button
+                  className={`${styles.sidebarBtn} ${styles.reset} ${reseting ? styles.loading : ''}`}
+                  onClick={() => handleChangeParameter('reset')}
+               >
+                  {reseting ? (
+                     <img className={styles.loading} src='assets/spin.gif' alt='loading' />
+                  ) : (
+                     'Reset'
+                  )}
+               </button>
+               <button
+                  className={`${styles.sidebarBtn} ${styles.save} ${saving ? styles.loading : ''} ${
+                     isChanged ? styles.active : ''
+                  }`}
+                  onClick={() => handleChangeParameter('save')}
+               >
+                  {saving ? (
+                     <img className={styles.loading} src='assets/spin.gif' alt='loading' />
+                  ) : (
+                     'Save'
+                  )}
+               </button>
+            </div>
 
             <UserBlock />
          </div>

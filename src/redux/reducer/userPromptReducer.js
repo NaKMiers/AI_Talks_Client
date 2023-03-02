@@ -54,6 +54,16 @@ function userPromptReducer(state = initState, action) {
             promptsMode0: [],
          }
 
+      case types.USER_CLEAR_MODE1:
+         newState = { ...state, promptsMode1: [] }
+         localStorage.setItem('user-prompts', JSON.stringify(newState))
+         return newState
+
+      case types.USER_CLEAR_MODE0:
+         newState = { ...state, promptsMode0: [] }
+         localStorage.setItem('user-prompts', JSON.stringify(newState))
+         return newState
+
       default:
          return state
    }

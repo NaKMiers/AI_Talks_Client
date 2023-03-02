@@ -34,6 +34,16 @@ function promptReducer(state = initState, action) {
          localStorage.setItem('prompts', JSON.stringify(newState))
          return newState
 
+      case types.CLEAR_MODE1:
+         newState = { ...state, promptsMode1: [] }
+         localStorage.setItem('prompts', JSON.stringify(newState))
+         return newState
+
+      case types.CLEAR_MODE0:
+         newState = { ...state, promptsMode0: [] }
+         localStorage.setItem('prompts', JSON.stringify(newState))
+         return newState
+
       default:
          return state
    }

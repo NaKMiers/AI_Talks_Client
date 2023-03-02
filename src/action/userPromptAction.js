@@ -11,6 +11,8 @@ const userAction = {
    setPromptsMode0: payload => ({ type: types.USER_SET_PROMPTS_MODE0, payload }),
 
    clear: () => ({ type: types.USER_CLEAR }),
+   clearMode1: () => ({ type: types.USER_CLEAR_MODE1 }),
+   clearMode0: () => ({ type: types.USER_CLEAR_MODE0 }),
 }
 
 export default userAction

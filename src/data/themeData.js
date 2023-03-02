@@ -73,7 +73,7 @@ const themeData = [
 
       appBackground: 'rgba(254,196,202, 1)',
       appSidebarBackground: '#fff',
-      appBtnBackground: '#333',
+      appBtnBackground: '#f08080',
       appText1: '#333',
       appText2: 'rgba(254,196,202, 1)',
    },

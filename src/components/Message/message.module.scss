@@ -43,6 +43,7 @@
 
 .aiImage {
    --image-gap: 0.5rem;
+
    width: 30rem;
    max-width: 80%;
    cursor: pointer;
@@ -52,27 +53,61 @@
    }
 }
 
-.imgRes {
+.imageWrap {
+   position: relative;
    display: inline-block;
    max-width: 100%;
    width: calc((100% - var(--image-gap)) / 2);
    border-radius: 0.4rem;
+   overflow: hidden;
 
    &:nth-child(odd) {
       margin-right: var(--image-gap);
    }
 
    &:nth-child(n-2) {
-      margin-bottom: calc(var(--image-gap) - 5px);
+      margin-bottom: calc(var(--image-gap) - 4px);
+   }
+
+   &:hover {
+      & .imgRes {
+         opacity: 0.8;
+      }
+
+      & .downloadBtn {
+         opacity: 1;
+      }
    }
 
    // Mobile < 400px
    @media screen and (max-width: 25rem) {
       width: 80%;
-      margin-bottom: calc(var(--image-gap) - 5px);
+      margin-bottom: calc(var(--image-gap) - 4px);
 
       &:nth-child(odd) {
          margin-right: 0;
       }
    }
+}
+
+.downloadBtn {
+   position: absolute;
+   top: var(--image-gap);
+   right: var(--image-gap);
+
+   width: 2rem;
+   height: 2rem;
+
+   font-size: 1rem;
+   color: var(--app-text2);
+   background: var(--app-text1);
+   border-radius: 0.4rem;
+   opacity: 0;
+   transition: all 0.2s ease-in;
+}
+
+.imgRes {
+   margin-bottom: -5px;
+   width: 100%;
+   transition: all 0.2s ease;
 }

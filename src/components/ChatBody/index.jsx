@@ -1,10 +1,9 @@
 import '@fortawesome/fontawesome-free/css/all.min.css'
 import React, { useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import userPromptAction from '../../action/userPromptAction'
 import completionApi from '../../apis/completionApi'
 import imageApi from '../../apis/imageApi'
-import userPromptAction from '../../action/userPromptAction'
-import promptAction from '../../action/promptAction'
 import Message from '../Message'
 import styles from './chatBody.module.scss'
 
@@ -99,6 +98,7 @@ function ChatBody() {
          }
       }
       if (user) {
+         console.log('mode: ', mode)
          mode === 1 ? getPromptsMode1() : getPromptsMode0()
       }
    }, [user, mode, dispatch])
@@ -109,7 +109,7 @@ function ChatBody() {
    return (
       <>
          <div ref={wrapMode1Ref} className={styles.body}>
-            {renderMesssageMode1()}
+            {mode === 1 && renderMesssageMode1()}
 
             {loading && (
                <div className={styles.aiMessage}>
@@ -120,7 +120,7 @@ function ChatBody() {
             <div ref={scrollRefMode1} className={styles.theLast} />
          </div>
          <div ref={wrapMode0Ref} className={styles.body}>
-            {renderMesssageMode0()}
+            {mode === 0 && renderMesssageMode0()}
 
             {loading && (
                <div className={styles.aiMessage}>

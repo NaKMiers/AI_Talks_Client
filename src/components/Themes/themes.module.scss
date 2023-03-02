@@ -39,9 +39,11 @@
    display: flex;
    align-items: center;
    justify-content: center;
+   overflow: hidden;
    width: 50%;
    height: 100%;
    font-size: 0.8rem;
    background: var(--app-text1);
    color: var(--app-text2);
+   transition: all 0.4s ease;
 }
