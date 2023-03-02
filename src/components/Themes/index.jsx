@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { memo, useCallback, useEffect, useRef, useState } from 'react'
 import { useLayoutEffect } from 'react'
 import { useSelector } from 'react-redux'
 import themeData from '../../data/themeData'
@@ -104,21 +104,25 @@ function Themes() {
       }
    }, [slide, maxSlide])
 
-   const handleSlide = direction => {
-      if (direction === 'down') {
-         if (slide < maxSlide) {
-            pistonRef.current.style.marginBottom =
-               -1 * slide * (themeRef.current.offsetHeight + 6) + 'px'
-            setSlide(slide + 1)
+   // handle change theme slide (6 themes/slide or 4 themes/slide)
+   const handleSlide = useCallback(
+      direction => {
+         if (direction === 'down') {
+            if (slide < maxSlide) {
+               pistonRef.current.style.marginBottom =
+                  -1 * slide * (themeRef.current.offsetHeight + 6) + 'px'
+               setSlide(slide + 1)
+            }
+         } else {
+            if (slide > 1) {
+               pistonRef.current.style.marginBottom =
+                  -1 * (slide - 2) * (themeRef.current.offsetHeight + 6) + 'px'
+               setSlide(slide - 1)
+            }
          }
-      } else {
-         if (slide > 1) {
-            pistonRef.current.style.marginBottom =
-               -1 * (slide - 2) * (themeRef.current.offsetHeight + 6) + 'px'
-            setSlide(slide - 1)
-         }
-      }
-   }
+      },
+      [maxSlide, slide]
+   )
 
    return (
       <>
@@ -140,4 +144,4 @@ function Themes() {
    )
 }
 
-export default Themes
+export default memo(Themes)

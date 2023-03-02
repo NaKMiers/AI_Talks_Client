@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
+import { memo } from 'react'
 import { useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import userAction from '../../action/userAction'
@@ -17,34 +18,39 @@ function UserBlock() {
    const fileRef = useRef()
    const SERVER_FOLDER = process.env.REACT_APP_SERVER_IMAGES
 
-   const handleLogout = async () => {
+   // only change in reducer and localStorage
+   const handleLogout = useCallback(async () => {
       dispatch(userAction.logout())
       dispatch(userPromptAction.clear())
-   }
+   }, [dispatch])
 
-   const handleChangeAvatar = async e => {
-      const file = e.target.files[0]
-      console.log(file)
-      if (!file.type.startsWith('image')) {
-         setError('This is not an image.')
-         return
-      }
-      if (file.size > 1024 * 1024) {
-         setError('Max size is 1mb.')
-         return
-      }
+   // change avatar in server and reducer
+   const handleChangeAvatar = useCallback(
+      async e => {
+         const file = e.target.files[0]
+         console.log(file)
+         if (!file.type.startsWith('image')) {
+            setError('This is not an image.')
+            return
+         }
+         if (file.size > 1024 * 1024) {
+            setError('Max size is 1mb.')
+            return
+         }
 
-      const data = new FormData()
-      data.append('name', Date.now() + file.name)
-      data.append('file', file)
+         const data = new FormData()
+         data.append('name', Date.now() + file.name)
+         data.append('file', file)
 
-      try {
-         const res = await userApi.changeAvatar(user._id, data)
-         dispatch(userAction.changeAvatar(res.data))
-      } catch (err) {
-         console.log(err)
-      }
-   }
+         try {
+            const res = await userApi.changeAvatar(user._id, data)
+            dispatch(userAction.changeAvatar(res.data))
+         } catch (err) {
+            console.log(err)
+         }
+      },
+      [user._id, dispatch]
+   )
 
    return (
       <div className={styles.userBlock}>
@@ -95,4 +101,4 @@ function UserBlock() {
    )
 }
 
-export default UserBlock
+export default memo(UserBlock)

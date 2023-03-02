@@ -1,5 +1,5 @@
 import '@fortawesome/fontawesome-free/css/all.min.css'
-import React, { useEffect, useRef } from 'react'
+import React, { memo, useCallback, useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import userPromptAction from '../../action/userPromptAction'
 import completionApi from '../../apis/completionApi'
@@ -103,8 +103,14 @@ function ChatBody() {
       }
    }, [user, mode, dispatch])
 
-   const renderMesssageMode1 = () => promptsMode1.map((data, i) => <Message key={i} data={data} />)
-   const renderMesssageMode0 = () => promptsMode0.map((data, i) => <Message key={i} data={data} />)
+   const renderMesssageMode1 = useCallback(
+      () => promptsMode1.map((data, i) => <Message key={i} data={data} />),
+      [promptsMode1]
+   )
+   const renderMesssageMode0 = useCallback(
+      () => promptsMode0.map((data, i) => <Message key={i} data={data} />),
+      [promptsMode0]
+   )
 
    return (
       <>
@@ -134,4 +140,4 @@ function ChatBody() {
    )
 }
 
-export default ChatBody
+export default memo(ChatBody)

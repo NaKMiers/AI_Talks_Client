@@ -1,4 +1,5 @@
-import React, { useRef, useState } from 'react'
+import React, { useCallback, useRef, useState } from 'react'
+import { memo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import parameterAction from '../../action/parameterAction'
 import userAction from '../../action/userAction'
@@ -14,7 +15,8 @@ function SampleTheme({ data, changing, setChanging }) {
    const [loading, setLoading] = useState(false)
    const timeoutRef = useRef(null)
 
-   const handleChangeTheme = () => {
+   // send request to server to change theme and set res.data at reducer
+   const handleChangeTheme = useCallback(() => {
       // if this theme is changing, other theme can't change
       if (!changing) {
          setLoading(true)
@@ -37,16 +39,17 @@ function SampleTheme({ data, changing, setChanging }) {
             setChanging(false)
          }, 2000)
       }
-   }
+   }, [changing, data.index, dispatch, user, parameters, setChanging])
 
-   const handleCancelChangeTheme = () => {
+   // cancel change theme when theme is LOADING
+   const handleCancelChangeTheme = useCallback(() => {
       // if this theme is changing, this theme will cancel
       if (loading) {
          setLoading(false)
          setChanging(false)
          clearTimeout(timeoutRef.current)
       }
-   }
+   }, [loading, setChanging])
 
    return (
       <div
@@ -69,4 +72,4 @@ function SampleTheme({ data, changing, setChanging }) {
    )
 }
 
-export default SampleTheme
+export default memo(SampleTheme)

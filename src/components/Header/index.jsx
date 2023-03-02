@@ -1,5 +1,6 @@
 import '@fortawesome/fontawesome-free/css/all.min.css'
-import React, { useLayoutEffect, useRef, useState } from 'react'
+import React, { useCallback, useLayoutEffect, useRef, useState } from 'react'
+import { memo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import parameterAction from '../../action/parameterAction'
 import userAction from '../../action/userAction'
@@ -15,11 +16,12 @@ function Header({ setShowSidebar }) {
    const [modeChanging, setModeChanging] = useState(false)
    const pistonRef = useRef()
 
+   // set status for change mode button
    useLayoutEffect(() => {
       pistonRef.current.style.marginTop = mode === 1 ? -1.3 + 'rem' : 0
    }, [mode])
 
-   const handleChangeMode = async () => {
+   const handleChangeMode = useCallback(async () => {
       // disable change mode button when mode is changing
       if (!modeChanging) {
          setModeChanging(true)
@@ -43,7 +45,7 @@ function Header({ setShowSidebar }) {
             setModeChanging(false)
          }, 2000)
       }
-   }
+   }, [modeChanging, user, mode, dispatch])
 
    return (
       <div className={styles.header}>
@@ -68,4 +70,4 @@ function Header({ setShowSidebar }) {
    )
 }
 
-export default Header
+export default memo(Header)

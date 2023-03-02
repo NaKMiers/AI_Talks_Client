@@ -1,4 +1,5 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { memo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import parameterAction from '../../action/parameterAction'
 import userAction from '../../action/userAction'
@@ -185,76 +186,96 @@ function Sidebar({ showSidebar, setShowSidebar }) {
       initSize,
    ])
 
-   const handleChangeParameter = async type => {
-      let newState = user
-         ? { ...user, model, maxTokens, temperature, amount, size }
-         : { ...parameters, model, maxTokens, temperature, amount, size }
+   // handle save and reset parameters (except theme)
+   const handleChangeParameter = useCallback(
+      async type => {
+         let newState = user
+            ? { ...user, model, maxTokens, temperature, amount, size }
+            : { ...parameters, model, maxTokens, temperature, amount, size }
 
-      const resetAllState = () => {
-         setModel(initModel)
-         setMaxTokens(initMaxTokens)
-         setTemperature(initTemp)
-         setAmount(initAmount)
-         setSize(initSize)
-         setReseting(false)
-      }
+         const resetAllState = () => {
+            setModel(initModel)
+            setMaxTokens(initMaxTokens)
+            setTemperature(initTemp)
+            setAmount(initAmount)
+            setSize(initSize)
+            setReseting(false)
+         }
 
-      if (type === 'save') {
-         setSaving(true)
-         if (user) {
-            try {
-               const res = await userApi.changeParameter(user._id, newState)
-               console.log('res: ', res.data)
-               setTimeout(() => {
-                  dispatch(userAction.changeParameter(res.data))
+         if (type === 'save') {
+            setSaving(true)
+            if (user) {
+               try {
+                  const res = await userApi.changeParameter(user._id, newState)
+                  console.log('res: ', res.data)
+                  setTimeout(() => {
+                     dispatch(userAction.changeParameter(res.data))
+                     setSaving(false)
+                  }, 1000)
+               } catch (err) {
+                  console.log(err)
                   setSaving(false)
-               }, 1000)
-            } catch (err) {
-               console.log(err)
-               setSaving(false)
-            }
-         } else {
-            setTimeout(() => {
-               dispatch(parameterAction.changeParameter(newState))
-               setSaving(false)
-            }, 1200)
-         }
-      } else if (type === 'reset') {
-         setReseting(true)
-         let resetObject = null
-         if (mode === 1) {
-            resetObject = {
-               model: 'text-davinci-003',
-               maxTokens: 100,
-               temperature: 0.5,
-            }
-         } else if (mode === 0) {
-            resetObject = { size: '256x256', amount: 1 }
-         }
-
-         newState = user ? { ...user, ...resetObject } : { ...parameters, ...resetObject }
-
-         if (user) {
-            try {
-               const res = await userApi.changeParameter(user._id, newState)
+               }
+            } else {
                setTimeout(() => {
-                  dispatch(userAction.changeParameter(res.data))
-                  resetAllState()
-               }, 1000)
-            } catch (err) {
-               console.log(err)
-               resetAllState()
+                  dispatch(parameterAction.changeParameter(newState))
+                  setSaving(false)
+               }, 1200)
             }
-         } else {
-            setTimeout(() => {
-               dispatch(parameterAction.changeParameter(newState))
-               resetAllState()
-            }, 1200)
-         }
-      }
-   }
+         } else if (type === 'reset') {
+            setReseting(true)
+            let resetObject = null
+            if (mode === 1) {
+               resetObject = {
+                  model: 'text-davinci-003',
+                  maxTokens: 100,
+                  temperature: 0.5,
+               }
+            } else if (mode === 0) {
+               resetObject = { size: '256x256', amount: 1 }
+            }
 
-   const renderModelOption = () => {
+            newState = user ? { ...user, ...resetObject } : { ...parameters, ...resetObject }
+
+            if (user) {
+               try {
+                  const res = await userApi.changeParameter(user._id, newState)
+                  setTimeout(() => {
+                     dispatch(userAction.changeParameter(res.data))
+                     resetAllState()
+                  }, 1000)
+               } catch (err) {
+                  console.log(err)
+                  resetAllState()
+               }
+            } else {
+               setTimeout(() => {
+                  dispatch(parameterAction.changeParameter(newState))
+                  resetAllState()
+               }, 1200)
+            }
+         }
+      },
+      [
+         model,
+         maxTokens,
+         temperature,
+         amount,
+         size,
+         initAmount,
+         initMaxTokens,
+         initModel,
+         initSize,
+         initTemp,
+         mode,
+         parameters,
+         dispatch,
+         user,
+      ]
+   )
+
+   // render model option sorted by name and function from model data
+   const renderModelOption = useCallback(() => {
       let models = []
 
       switch (groupBy) {
@@ -277,7 +298,7 @@ function Sidebar({ showSidebar, setShowSidebar }) {
             ))}
          </optgroup>
       ))
-   }
+   }, [groupBy])
 
    return (
       <div className={`${styles.sidebar} ${showSidebar && styles.active}`}>
@@ -452,4 +473,4 @@ function Sidebar({ showSidebar, setShowSidebar }) {
    )
 }
 
-export default Sidebar
+export default memo(Sidebar)
