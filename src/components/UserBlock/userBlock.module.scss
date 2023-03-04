@@ -126,9 +126,14 @@
    font-size: 1rem;
    margin: 0.6rem 0 0 0rem;
    transition: all 0.4s linear;
-   & div {
-      padding: 0.6rem 0 0.6rem 1rem;
+   & > div {
+      padding: 0.6rem 0 0.6rem 0.8rem;
       transition: all 0.3s ease-in-out;
+
+      & > i {
+         text-align: center;
+         width: 1.5rem;
+      }
 
       &:hover {
          background: var(--app-text1);

@@ -281,7 +281,7 @@
    &.save {
       width: 2.9rem;
       &.active {
-         background: #e8c63d;
+         background: var(--app-btn-bgr);
          animation: wave 0.5s linear infinite;
       }
    }

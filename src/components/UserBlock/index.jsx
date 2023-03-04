@@ -6,17 +6,19 @@ import userAction from '../../action/userAction'
 import userPromptAction from '../../action/userPromptAction'
 import userApi from '../../apis/userApi'
 import AuthModal from '../AuthModal'
+import DevInfoModal from '../DevInfoModal'
 import styles from './userBlock.module.scss'
 
 function UserBlock() {
    const { user } = useSelector(state => state.userReducer)
    const dispatch = useDispatch()
+   const SERVER_FOLDER = process.env.REACT_APP_SERVER_IMAGES
 
-   const [collapseUser, setCollapseUser] = useState(false)
    const [openAuthModal, setOpenAuthModal] = useState(false)
+   const [openDevInfoModal, setOpenDevInfoModal] = useState(false)
+   const [collapseUser, setCollapseUser] = useState(false)
    const [error, setError] = useState('')
    const fileRef = useRef()
-   const SERVER_FOLDER = process.env.REACT_APP_SERVER_IMAGES
 
    // only change in reducer and localStorage
    const handleLogout = useCallback(async () => {
@@ -49,7 +51,7 @@ function UserBlock() {
             console.log(err)
          }
       },
-      [user._id, dispatch]
+      [user?._id, dispatch]
    )
 
    return (
@@ -84,14 +86,18 @@ function UserBlock() {
                   <span className={styles.error}>{error && '*' + error}</span>
                </div>
                <div className={`${styles.collapseUserContent} ${collapseUser && styles.active}`}>
+                  <div onClick={() => setOpenDevInfoModal(true)}>
+                     <i className='fa-solid fa-code' /> Dev Info
+                  </div>
                   <div onClick={handleLogout}>
                      <i className='fa-solid fa-arrow-right-from-bracket' /> Logout
                   </div>
                </div>
+               <DevInfoModal open={openDevInfoModal} setOpen={setOpenDevInfoModal} />
             </>
          ) : (
             <>
-               <button className={styles.loginBtn} onClick={() => setOpenAuthModal(!openAuthModal)}>
+               <button className={styles.loginBtn} onClick={() => setOpenAuthModal(true)}>
                   Login
                </button>
                <AuthModal open={openAuthModal} setOpen={setOpenAuthModal} />

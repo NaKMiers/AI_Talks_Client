@@ -31,6 +31,7 @@
 }
 
 .switchWrap {
+   position: relative;
    display: flex;
    align-items: center;
    justify-content: flex-end;
@@ -38,13 +39,39 @@
    height: 1.3rem;
    transition: all 0.3s ease-in-out;
 
-   & > div {
+   & > div:nth-child(1) {
       height: 100%;
       width: 3.2rem;
-      overflow: scroll;
+      overflow: hidden;
       margin: 0 !important;
       border-radius: 0.5rem;
+      transition: all 0.3s ease;
+
+      &:hover {
+         transform: scale(1.1);
+         & + div {
+            display: inline-block;
+         }
+      }
    }
+}
+
+.tooltip {
+   position: absolute;
+   right: 0;
+   top: calc(100% + 50%);
+   transform: scale(1.2);
+
+   display: none;
+   color: var(--app-text1);
+   background: var(--sidebar-bgr);
+   padding: 0.2rem 0.5rem;
+   border: 1px solid var(--app-text1);
+   border-radius: 0.2rem;
+   font-size: 0.6rem;
+   opacity: 0.9;
+   white-space: nowrap;
+   animation: tooltips 0.3s ease;
 }
 
 .piston {
@@ -64,10 +91,24 @@
    user-select: none;
 
    &:nth-child(2) {
-      background: linear-gradient(45deg, cyan, yellow);
+      background: var(--app-text1);
+      color: var(--app-text2);
    }
 
    &:nth-child(3) {
       background: linear-gradient(45deg, #f44336, magenta);
+      background: var(--app-btn-bgr);
+      color: var(--app-text2);
+   }
+}
+
+@keyframes tooltips {
+   from {
+      top: calc(100% + 32%);
+      transform: scale(1);
+   }
+   to {
+      top: calc(100% + 50%);
+      transform: scale(1.2);
    }
 }

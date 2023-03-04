@@ -78,7 +78,7 @@ function Input() {
             console.log(err)
          }
       },
-      [dispatch, prompt, model, maxTokens, temperature, user._id]
+      [dispatch, prompt, model, maxTokens, temperature, user?._id]
    )
    // send prompt and create images (NO LOGIN)
    const handleGenerateImageNoLogin = useCallback(async () => {
@@ -126,7 +126,7 @@ function Input() {
          dispatch(userPromptAction.loading(false))
          console.log(err)
       }
-   }, [dispatch, user._id, prompt, amount, size])
+   }, [dispatch, user?._id, prompt, amount, size])
 
    // clear prompt and completions (NO LOGIN)
    const handleClearConversationMode1NoLogin = useCallback(async () => {
@@ -153,7 +153,7 @@ function Input() {
          setClearLoading(false)
          console.log(err)
       }
-   }, [dispatch, user._id])
+   }, [dispatch, user?._id])
 
    // clear prompt and images (NO LOGIN)
    const handleClearConversationMode0NoLogin = useCallback(async () => {
@@ -180,7 +180,7 @@ function Input() {
          setClearLoading(false)
          console.log(err)
       }
-   }, [dispatch, user._id])
+   }, [dispatch, user?._id])
 
    // handle send prompt to server
    const handleSend = useCallback(() => {

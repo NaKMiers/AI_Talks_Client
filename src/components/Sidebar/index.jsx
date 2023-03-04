@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import parameterAction from '../../action/parameterAction'
 import userAction from '../../action/userAction'
 import userApi from '../../apis/userApi'
-import { GroupByName } from '../../data/modelData'
+import { GroupByName, GroupByFunction } from '../../data/modelData'
 import Themes from '../Themes'
 import UserBlock from '../UserBlock'
 import styles from './sidebar.module.scss'
@@ -283,7 +283,7 @@ function Sidebar({ showSidebar, setShowSidebar }) {
             models = GroupByName
             break
          case 'function':
-            models = []
+            models = GroupByFunction
             break
          default:
             return

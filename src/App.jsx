@@ -43,6 +43,7 @@ function App() {
       <div
          className={styles.app}
          style={{
+            '--theme-background': themeObj.background,
             '--sidebar-bgr': themeObj.appSidebarBackground,
             '--app-bgr': themeObj.appBackground,
             '--app-btn-bgr': themeObj.appBtnBackground,

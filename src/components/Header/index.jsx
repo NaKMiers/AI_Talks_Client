@@ -18,7 +18,7 @@ function Header({ setShowSidebar }) {
 
    // set status for change mode button
    useLayoutEffect(() => {
-      pistonRef.current.style.marginTop = mode === 1 ? -1.3 + 'rem' : 0
+      pistonRef.current.style.marginTop = mode === 1 ? 0 : -1.3 + 'rem'
    }, [mode])
 
    const handleChangeMode = useCallback(async () => {
@@ -59,12 +59,13 @@ function Header({ setShowSidebar }) {
             <div>
                <div ref={pistonRef} className={styles.piston} />
                <span className={styles.switchBtn} onClick={handleChangeMode}>
-                  Image
-               </span>
-               <span className={styles.switchBtn} onClick={handleChangeMode}>
                   Chat
                </span>
+               <span className={styles.switchBtn} onClick={handleChangeMode}>
+                  Image
+               </span>
             </div>
+            <div className={styles.tooltip}>Change Mode</div>
          </div>
       </div>
    )
