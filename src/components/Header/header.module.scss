@@ -97,8 +97,8 @@
 
    &:nth-child(3) {
       background: linear-gradient(45deg, #f44336, magenta);
-      background: var(--app-btn-bgr);
-      color: var(--app-text2);
+      background: var(--app-text2);
+      color: var(--app-text1);
    }
 }
 

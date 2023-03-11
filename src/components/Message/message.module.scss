@@ -1,7 +1,7 @@
 .userMessage {
    max-width: 20rem;
    margin-left: auto;
-   animation: all 0.2s ease;
+   transition: all 0.2s ease;
 
    & > div {
       width: 100%;
@@ -16,6 +16,7 @@
 .aiMessage {
    max-width: 20rem;
    color: #123;
+   transition: all 0.2s ease;
 
    & > div {
       width: 100%;
@@ -35,9 +36,33 @@
    font-size: 0.8rem;
    margin-left: 0.2rem;
    overflow: hidden;
+   transition: all 0.2s ease;
+   margin: 0 0.2rem;
 
-   &.active {
-      display: block;
+   &.show {
+      animation: show 0.2s ease;
+   }
+
+   &.hide {
+      animation: hide 0.2s ease;
+   }
+}
+
+@keyframes show {
+   from {
+      height: 0;
+   }
+   to {
+      height: 1rem;
+   }
+}
+
+@keyframes hide {
+   from {
+      height: 1rem;
+   }
+   to {
+      height: 0;
    }
 }
 

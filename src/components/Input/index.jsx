@@ -31,6 +31,7 @@ function Input() {
    // send prompt and create completions (NO LOGIN)
    const handleCreateCompletionNoLogin = useCallback(
       async newText => {
+         console.log('prompt: ', newText)
          console.log('handleCreateCompletionNoLogin')
          dispatch(promptAction.loading(true))
          try {
@@ -44,6 +45,7 @@ function Input() {
             setPrompt('')
 
             const res = await completionApi.createCompletion({ prompt: newText })
+            console.log('res: ', res.data)
             dispatch(promptAction.receiveCompletion({ ...res.data, type: 'ai' }))
             dispatch(promptAction.loading(false))
          } catch (err) {
@@ -188,9 +190,11 @@ function Input() {
          if (mode === 1) {
             const newText =
                promptsMode1
-                  .slice(promptsMode1.length - 8)
+                  .slice(promptsMode1.length - 6)
                   .map(item => item.text)
-                  .join('\n') + prompt.trim()
+                  .join('\n') +
+               '\n' +
+               prompt.trim()
 
             if (user) {
                handleCreateCompletionLogined(newText)
@@ -216,6 +220,7 @@ function Input() {
       handleGenerateImageNoLogin,
    ])
 
+   // clear conversation in redux when nologin and clear in database when logined
    const handleClearConversation = useCallback(() => {
       if (mode === 1) {
          if (user) {
@@ -262,6 +267,7 @@ function Input() {
             value={prompt}
             onInput={setHeight}
             onChange={e => setPrompt(e.target.value)}
+            onKeyDown={e => e.ctrlKey && e.keyCode === 13 && handleSend()}
          />
          <button
             className={`${styles.inputBtn} ${loading && styles.disabled}`}

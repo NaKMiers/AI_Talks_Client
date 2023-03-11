@@ -22,6 +22,7 @@ function UserBlock() {
 
    // only change in reducer and localStorage
    const handleLogout = useCallback(async () => {
+      setCollapseUser(false)
       dispatch(userAction.logout())
       dispatch(userPromptAction.clear())
    }, [dispatch])
@@ -86,7 +87,12 @@ function UserBlock() {
                   <span className={styles.error}>{error && '*' + error}</span>
                </div>
                <div className={`${styles.collapseUserContent} ${collapseUser && styles.active}`}>
-                  <div onClick={() => setOpenDevInfoModal(true)}>
+                  <div
+                     onClick={() => {
+                        setOpenDevInfoModal(true)
+                        setCollapseUser(false)
+                     }}
+                  >
                      <i className='fa-solid fa-code' /> Dev Info
                   </div>
                   <div onClick={handleLogout}>
