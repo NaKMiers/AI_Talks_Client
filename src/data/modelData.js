@@ -97,8 +97,8 @@ export const GroupByFunction = [
    {
       name: 'Natural Language Processing',
       data: [
-         'text-davinci-002',
          'text-davinci-003',
+         'text-davinci-002',
          'text-davinci-001',
          'text-davinci-insert-002',
          'text-davinci-edit-001',

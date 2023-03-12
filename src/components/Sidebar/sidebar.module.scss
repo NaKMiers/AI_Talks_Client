@@ -89,6 +89,7 @@
 
 // Select Models
 .selectModel {
+   position: relative;
    display: block;
    max-width: calc(var(--sidebar-size) - var(--sidebar-padding));
    width: 100%;
@@ -97,13 +98,80 @@
    padding: 0.8rem 0.5rem;
    background: var(--app-text1);
    color: var(--app-text2);
+   cursor: pointer;
 
    transition: all 0.5s ease-in-out;
+}
+
+.showOptionBtn {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   position: absolute;
+   top: 50%;
+   right: 0.4rem;
+   transform: translateY(-50%);
+   width: 1rem;
+   background: none;
+   color: var(--app-text2);
+
+   & i {
+      transition: all 0.3s ease-in-out;
+   }
+
+   &.show i {
+      transform: rotate(180deg);
+   }
+}
+
+.optionWrap {
+   position: absolute;
+   top: 0;
+   left: 0;
+   width: 100%;
+   border-radius: 0.5rem;
+
+   background: var(--app-text1);
+   z-index: 1;
+   max-height: 0;
+   height: 30rem;
+   overflow: scroll;
+
+   transition: all 0.3s ease-in-out;
+
+   &.show {
+      top: calc(100% + 0.5rem);
+      max-height: 75vh;
+   }
+}
+
+.optGroup {
+   width: 100%;
+   & > p {
+      width: 100%;
+      font-weight: bold;
+      background: var(--app-text2);
+      color: var(--app-text1);
+      padding: 0.4rem 0 0.4rem 0.4em;
+   }
+}
+
+.options {
+   font-size: 0.9rem;
+   padding: 0.2rem 0 0.2rem 1.2rem;
+   transition: 0.2s ease-in;
+
+   &:hover {
+      background: var(--app-text2);
+      color: var(--app-text1);
+      cursor: pointer;
+   }
 }
 
 .groupByWrap {
    display: flex;
    justify-content: flex-end;
+   align-items: center;
    max-width: calc(var(--sidebar-size) - var(--sidebar-padding));
    margin-bottom: 1.5rem;
 
@@ -120,6 +188,48 @@
       padding: 0 0.2rem;
       background: var(--app-text1);
       color: var(--app-text2);
+   }
+}
+
+.selectGroupBy {
+   position: relative;
+   cursor: pointer;
+
+   & > p {
+      text-align: center;
+      width: 4.2rem;
+      font-size: 0.8rem;
+      font-weight: bold;
+      border-radius: 0.3rem;
+      background: #fff;
+      color: #333;
+   }
+}
+
+.groupByOptWrap {
+   position: absolute;
+   top: 200%;
+   width: 100%;
+   border-radius: 0.3rem;
+   font-size: 0.8rem;
+   background: var(--app-text1);
+   color: var(--app-text2);
+   overflow: hidden;
+   max-height: 0;
+   transition: all 0.2s ease-in-out;
+
+   &.show {
+      top: calc(100% + 0.2rem);
+      max-height: 2.5rem;
+   }
+}
+.groupByOpts {
+   padding: 0.1rem 0 0.1rem 0.3rem;
+   cursor: pointer;
+   transition: all 0.2s ease-in-out;
+   &:hover {
+      background: var(--app-text2);
+      color: var(--app-text1);
    }
 }
 

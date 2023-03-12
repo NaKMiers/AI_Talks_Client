@@ -23,6 +23,9 @@ function Sidebar({ showSidebar, setShowSidebar }) {
       modeChanged,
    } = user || parameters
 
+   const [showOptions, setShowOptions] = useState(false)
+   const [showGroupBy, setShowGroupBy] = useState(false)
+
    const [model, setModel] = useState(initModel)
    const [maxTokens, setMaxTokens] = useState(initMaxTokens)
    const [temperature, setTemperature] = useState(initTemp)
@@ -290,13 +293,21 @@ function Sidebar({ showSidebar, setShowSidebar }) {
       }
 
       return models.map(model => (
-         <optgroup key={model.name} label={model.name}>
-            {model.data.map(data => (
-               <option key={data} value={data}>
+         <div key={model.name} className={styles.optGroup}>
+            <p>{model.name}</p>
+            {model.data.map((data, i) => (
+               <div
+                  key={i}
+                  className={styles.options}
+                  onClick={() => {
+                     setModel(data)
+                     setShowOptions(false)
+                  }}
+               >
                   {data}
-               </option>
+               </div>
             ))}
-         </optgroup>
+         </div>
       ))
    }, [groupBy])
 
@@ -312,23 +323,35 @@ function Sidebar({ showSidebar, setShowSidebar }) {
             <label ref={modelLabelRef} className={`${styles.label} ${styles.model}`} htmlFor='model'>
                Select Models:
             </label>
-            <select
+            <div
                ref={modelInputRef}
-               value={model}
-               onChange={e => setModel(e.target.value)}
                size={1}
                className={styles.selectModel}
+               onClick={() => setShowOptions(!showOptions)}
                name='model'
                id='model'
             >
-               {renderModelOption()}
-            </select>
+               <span>{model}</span>
+               <button className={`${styles.showOptionBtn} ${showOptions ? styles.show : ''}`}>
+                  <i className='fa-solid fa-angle-down' />
+               </button>
+               <div className={`${styles.optionWrap} ${showOptions ? styles.show : ''}`}>
+                  {renderModelOption()}
+               </div>
+            </div>
             <div ref={groupByRef} className={styles.groupByWrap}>
                <i>Group by: </i>
-               <select onChange={e => setGroupBy(e.target.value)} value={groupBy} name='groupby'>
-                  <option value='name'>Name</option>
-                  <option value='function'>Function</option>
-               </select>
+               <div className={styles.selectGroupBy} onClick={() => setShowGroupBy(!showGroupBy)}>
+                  <p>{groupBy}</p>
+                  <div className={`${styles.groupByOptWrap} ${showGroupBy ? styles.show : ''}`}>
+                     <div onClick={() => setGroupBy('name')} className={styles.groupByOpts}>
+                        name
+                     </div>
+                     <div onClick={() => setGroupBy('function')} className={styles.groupByOpts}>
+                        function
+                     </div>
+                  </div>
+               </div>
             </div>
 
             {/* Max Tokens */}
