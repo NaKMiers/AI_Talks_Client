@@ -5,10 +5,15 @@
    left: 0;
    display: flex;
    flex-direction: column;
-   padding: var(--sidebar-padding);
-   // flex-grow: 1;
+   padding: calc(var(--sidebar-padding) / 2) var(--sidebar-padding) 0 var(--sidebar-padding);
+   border-top: 1px solid var(--app-text1);
+   background: var(--sidebar-bgr);
    width: 100%;
    justify-content: flex-end;
+
+   // Mobile < 768px
+   @media screen and (max-width: 16rem) {
+   }
 }
 
 .loginBtn {
@@ -49,7 +54,7 @@
 .userWrap {
    position: relative;
    display: flex;
-   align-items: flex-end;
+   align-items: center;
    gap: 0.5rem;
    width: 100%;
    transition: all 0.3s ease-in-out;
@@ -57,6 +62,14 @@
    border-bottom-left-radius: 0.5rem;
    overflow: hidden;
    cursor: pointer;
+
+   // Mobile < 208px
+   @media screen and (max-width: 13rem) {
+      align-items: center;
+      & > span {
+         display: none;
+      }
+   }
 }
 
 .avatarWrap {
@@ -64,8 +77,8 @@
    display: flex;
    border-radius: 50%;
    overflow: hidden;
-   width: 2.3rem;
-   height: 2.3rem;
+   width: var(--avatar-size);
+   height: var(--avatar-size);
 
    &:hover .avatarBtn {
       opacity: 1;
@@ -105,6 +118,9 @@
 }
 
 .collapseBtn {
+   display: flex;
+   align-items: center;
+   justify-content: center;
    width: 1rem;
    height: 1rem;
    background: none;
@@ -124,7 +140,7 @@
    overflow: hidden;
    width: 100%;
    font-size: 1rem;
-   margin: 0.6rem 0 0 0rem;
+   margin: calc(var(--sidebar-padding) / 2) 0 0 0rem;
    transition: all 0.4s linear;
    & > div {
       padding: 0.6rem 0 0.6rem 0.8rem;

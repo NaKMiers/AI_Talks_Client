@@ -23,8 +23,10 @@ function Themes() {
 
    useEffect(() => {
       const handleResize = () => {
+         console.log(themeRef.current.offsetWidth)
          const width = themeRef.current.offsetWidth
          const heigth = width >= 192 ? (width * 2) / 3 - 3 : width
+         themeRef.current.style.minHeight = Math.ceil(heigth) + 'px'
          themeRef.current.style.height = Math.ceil(heigth) + 'px'
       }
       handleResize()

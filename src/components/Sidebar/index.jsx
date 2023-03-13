@@ -33,9 +33,11 @@ function Sidebar({ showSidebar, setShowSidebar }) {
    const [size, setSize] = useState(initSize)
 
    const [groupBy, setGroupBy] = useState('name')
+   const [isChanged, setIsChanged] = useState(false)
    const [reseting, setReseting] = useState(false)
    const [saving, setSaving] = useState(false)
-   const [isChanged, setIsChanged] = useState(false)
+   const saveRef = useRef()
+   const scrollTimeOut = useRef()
    const fixedSize = ['256x256', '512x512', '1024x1024']
    console.log('isChanged: ', isChanged)
 
@@ -113,6 +115,17 @@ function Sidebar({ showSidebar, setShowSidebar }) {
       ],
       []
    )
+
+   // scroll into view
+   useEffect(() => {
+      console.log('scrollTimeOut.current: ', scrollTimeOut.current)
+      clearTimeout(scrollTimeOut.current)
+      if (isChanged) {
+         scrollTimeOut.current = setTimeout(() => {
+            saveRef.current.scrollIntoView({ behavior: 'smooth' })
+         }, 1500)
+      }
+   }, [isChanged])
 
    // change mode animation sidebar
    useEffect(() => {
@@ -477,6 +490,7 @@ function Sidebar({ showSidebar, setShowSidebar }) {
                   )}
                </button>
                <button
+                  ref={saveRef}
                   className={`${styles.sidebarBtn} ${styles.save} ${saving ? styles.loading : ''} ${
                      isChanged ? styles.active : ''
                   }`}
