@@ -268,6 +268,7 @@ function Input() {
             onInput={setHeight}
             onChange={e => setPrompt(e.target.value)}
             onKeyDown={e => e.ctrlKey && e.keyCode === 13 && handleSend()}
+            placeholder={mode === 1 ? 'Message...' : 'Describe the image...'}
          />
          <button
             className={`${styles.inputBtn} ${loading && styles.disabled}`}
