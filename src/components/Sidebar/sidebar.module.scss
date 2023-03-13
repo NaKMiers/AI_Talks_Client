@@ -79,13 +79,13 @@
    min-height: 100%;
    padding: var(--sidebar-padding);
    padding-top: 2rem;
-   padding-bottom: calc(var(--avatar-size) + 2 * var(--sidebar-padding));
+   padding-bottom: calc(var(--avatar-size) + 2.5 * var(--sidebar-padding));
    overflow-y: scroll;
 
    // Mobile < 768px
    @media screen and (max-width: 48rem) {
       padding-top: var(--sidebar-padding);
-      padding-bottom: calc(var(--avatar-size) + 2 * var(--sidebar-padding) + 5rem);
+      padding-bottom: calc(var(--avatar-size) + 2.5 * var(--sidebar-padding) + 5rem);
    }
 }
 

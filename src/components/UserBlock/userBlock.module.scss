@@ -5,7 +5,7 @@
    left: 0;
    display: flex;
    flex-direction: column;
-   padding: calc(var(--sidebar-padding) / 2) var(--sidebar-padding) 0 var(--sidebar-padding);
+   padding: calc(var(--sidebar-padding) / 2) var(--sidebar-padding);
    border-top: 1px solid var(--app-text1);
    background: var(--sidebar-bgr);
    width: 100%;
