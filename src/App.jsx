@@ -16,7 +16,7 @@ function App() {
    const user = useSelector(state => state.userReducer.user)
    const parameters = useSelector(state => state.parameterReducer)
    const { theme } = user || parameters
-   const [showSidebar, setShowSidebar] = useState(true)
+   const [showSidebar, setShowSidebar] = useState(false)
 
    const themeObj = themeData[theme]
 
