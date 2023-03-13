@@ -58,11 +58,11 @@ function App() {
 
          <Header setShowSidebar={setShowSidebar} />
 
+         <Sidebar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
+
          <ChatBody />
 
          <Input />
-
-         <Sidebar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
       </div>
    )
 }

@@ -33,7 +33,7 @@ select {
    --app-text1: #fff;
    --app-text2: #333;
 
-   position: absolute;
+   position: fixed;
    top: 0;
    left: var(--sidebar-size);
    right: 0;
