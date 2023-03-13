@@ -50,8 +50,6 @@ select {
 
    // Mobile < 768px
    @media screen and (max-width: 48rem) {
-      margin-top: 3rem;
-      height: calc(100vh - 3rem);
       margin-left: 0;
    }
 }
