@@ -33,11 +33,7 @@ select {
    --app-text1: #fff;
    --app-text2: #333;
 
-   position: fixed;
-   top: 0;
-   left: var(--sidebar-size);
-   right: 0;
-   bottom: 0;
+   position: relative;
    height: 100vh;
    display: flex;
    flex-direction: column;
@@ -46,13 +42,16 @@ select {
    padding: 1.5rem 1rem;
    margin: auto;
    background: var(--app-bgr);
-   color: var(--app-text1);
    z-index: 0;
    transition: all 0.5s ease-in-out;
 
+   color: var(--app-text1);
+   margin-left: var(--sidebar-size);
+
    // Mobile < 768px
    @media screen and (max-width: 48rem) {
-      left: 0;
+      margin-left: 0;
+      padding: 5rem 1rem;
    }
 }
 

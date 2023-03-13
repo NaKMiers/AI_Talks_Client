@@ -60,7 +60,7 @@ function App() {
 
          <Sidebar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
 
-         {/* <ChatBody /> */}
+         <ChatBody />
 
          <Input />
       </div>
