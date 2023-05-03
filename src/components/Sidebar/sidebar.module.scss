@@ -10,6 +10,7 @@
    width: var(--sidebar-size);
    background: var(--sidebar-bgr);
    transition: all 0.5s ease-in-out;
+   z-index: 1;
 
    // Tablet 768px - 1024px
    @media screen and (max-width: 64rem) {
