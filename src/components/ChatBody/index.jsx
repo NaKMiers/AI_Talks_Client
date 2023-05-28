@@ -82,7 +82,6 @@ function ChatBody() {
       const getPromptsMode1 = async () => {
          try {
             const res = await completionApi.getPrompts(user._id)
-            console.log('res-prompt-mode1: ', res.data)
             dispatch(userPromptAction.setPromptsMode1(res.data))
          } catch (err) {
             console.log(err)
@@ -91,14 +90,12 @@ function ChatBody() {
       const getPromptsMode0 = async () => {
          try {
             const res = await imageApi.getImages(user._id)
-            console.log('res-prompt-mode0: ', res.data)
             dispatch(userPromptAction.setPromptsMode0(res.data))
          } catch (err) {
             console.log(err)
          }
       }
       if (user) {
-         console.log('mode: ', mode)
          mode === 1 ? getPromptsMode1() : getPromptsMode0()
       }
    }, [user, mode, dispatch])

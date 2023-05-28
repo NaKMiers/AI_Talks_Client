@@ -39,7 +39,6 @@ function Sidebar({ showSidebar, setShowSidebar }) {
    const saveRef = useRef()
    const scrollTimeOut = useRef()
    const fixedSize = ['256x256', '512x512', '1024x1024']
-   console.log('isChanged: ', isChanged)
 
    // DOM REF
    const buttonWrapRef = useRef(null)
@@ -118,7 +117,6 @@ function Sidebar({ showSidebar, setShowSidebar }) {
 
    // scroll into view
    useEffect(() => {
-      console.log('scrollTimeOut.current: ', scrollTimeOut.current)
       clearTimeout(scrollTimeOut.current)
       if (isChanged) {
          scrollTimeOut.current = setTimeout(() => {
@@ -223,7 +221,6 @@ function Sidebar({ showSidebar, setShowSidebar }) {
             if (user) {
                try {
                   const res = await userApi.changeParameter(user._id, newState)
-                  console.log('res: ', res.data)
                   setTimeout(() => {
                      dispatch(userAction.changeParameter(res.data))
                      setSaving(false)

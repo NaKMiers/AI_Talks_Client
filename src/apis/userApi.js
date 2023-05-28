@@ -1,7 +1,6 @@
 import axios from 'axios'
 
 const API = axios.create({ baseURL: process.env.REACT_APP_SERVER })
-console.log(process.env.REACT_APP_SERVER)
 
 API.interceptors.request.use(req => {
    const user = localStorage.getItem('user')

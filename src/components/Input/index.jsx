@@ -31,8 +31,6 @@ function Input() {
    // send prompt and create completions (NO LOGIN)
    const handleCreateCompletionNoLogin = useCallback(
       async newText => {
-         console.log('prompt: ', newText)
-         console.log('handleCreateCompletionNoLogin')
          dispatch(promptAction.loading(true))
          try {
             dispatch(
@@ -45,7 +43,6 @@ function Input() {
             setPrompt('')
 
             const res = await completionApi.createCompletion({ prompt: newText })
-            console.log('res: ', res.data)
             dispatch(promptAction.receiveCompletion({ ...res.data, type: 'ai' }))
             dispatch(promptAction.loading(false))
          } catch (err) {
@@ -58,11 +55,9 @@ function Input() {
    // send prompt and create completions (LOGINED)
    const handleCreateCompletionLogined = useCallback(
       async newText => {
-         console.log('handleCreateCompletionNoLogin')
          dispatch(userPromptAction.loading(true))
          try {
             const res1 = await completionApi.createPrompt(user._id, prompt.trim())
-            console.log('res1: ', res1.data)
             dispatch(userPromptAction.sendPromptMode1(res1.data))
             setPrompt('')
 
@@ -72,7 +67,6 @@ function Input() {
                maxTokens,
                temperature,
             })
-            console.log('res2: ', res2.data)
             dispatch(userPromptAction.receiveCompletion(res2.data))
             dispatch(userPromptAction.loading(false))
          } catch (err) {
@@ -84,7 +78,6 @@ function Input() {
    )
    // send prompt and create images (NO LOGIN)
    const handleGenerateImageNoLogin = useCallback(async () => {
-      console.log('handleGenerateImageNoLogin')
       dispatch(promptAction.loading(true))
       try {
          dispatch(
@@ -97,7 +90,6 @@ function Input() {
          setPrompt('')
 
          const res = await imageApi.generateImage({ prompt: prompt.trim(), amount, size })
-         console.log('res1', res.data)
          dispatch(promptAction.receiveImage({ images: res.data, type: 'ai-image' }))
          dispatch(promptAction.loading(false))
       } catch (err) {
@@ -107,12 +99,10 @@ function Input() {
    }, [dispatch, prompt, amount, size])
    // send prompt and create images (LOGINED)
    const handleGenerateImageLogined = useCallback(async () => {
-      console.log('handleGenerateImageLogined')
       dispatch(userPromptAction.loading(true))
 
       try {
          const res1 = await imageApi.createPrompt(user._id, prompt.trim())
-         console.log('res1: ', res1.data)
          dispatch(userPromptAction.sendPromptMode0(res1.data))
          setPrompt('')
 
@@ -121,7 +111,6 @@ function Input() {
             amount,
             size,
          })
-         console.log('res2: ', res2.data)
          dispatch(userPromptAction.receiveImage(res2.data))
          dispatch(userPromptAction.loading(false))
       } catch (err) {
@@ -132,7 +121,6 @@ function Input() {
 
    // clear prompt and completions (NO LOGIN)
    const handleClearConversationMode1NoLogin = useCallback(async () => {
-      console.log('handleClearConversationMode1NoLogin')
       setClearLoading(true)
 
       setTimeout(() => {
@@ -143,12 +131,10 @@ function Input() {
 
    // clear prompt and completions (LOGINED)
    const handleClearConversationMode1Logined = useCallback(async () => {
-      console.log('handleClearConversationMode1Logined')
       setClearLoading(true)
 
       try {
-         const res = await completionApi.clearCompletions(user._id)
-         console.log('res-clearCompletions: ', res.data)
+         await completionApi.clearCompletions(user._id)
          dispatch(userPromptAction.clearMode1())
          setClearLoading(false)
       } catch (err) {
@@ -159,7 +145,6 @@ function Input() {
 
    // clear prompt and images (NO LOGIN)
    const handleClearConversationMode0NoLogin = useCallback(async () => {
-      console.log('handleClearConversationMode0NoLogin')
       setClearLoading(true)
 
       setTimeout(() => {
@@ -170,12 +155,10 @@ function Input() {
 
    // clear prompt and images (LOGINED)
    const handleClearConversationMode0Logined = useCallback(async () => {
-      console.log('handleClearConversationMode0Logined')
       setClearLoading(true)
 
       try {
-         const res = await imageApi.clearImages(user._id)
-         console.log('res-clearImages: ', res.data)
+         await imageApi.clearImages(user._id)
          dispatch(userPromptAction.clearMode0())
          setClearLoading(false)
       } catch (err) {

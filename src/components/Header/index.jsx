@@ -32,7 +32,6 @@ function Header({ setShowSidebar }) {
                   ...user,
                   mode: mode === 1 ? 0 : 1,
                })
-               console.log('res-mode: ', res.data)
                dispatch(userAction.changeMode(res.data))
             } catch (err) {
                console.log(err)

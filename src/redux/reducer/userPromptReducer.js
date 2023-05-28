@@ -30,8 +30,6 @@ function userPromptReducer(state = initState, action) {
          return newState
 
       case types.USER_RECEIVE_IMAGE:
-         console.log('types.USER_RECEIVE_IMAGE')
-         console.log('action.payload: ', action.payload)
          newState = { ...state, promptsMode0: [...state.promptsMode0, action.payload] }
          localStorage.setItem('user-prompts', JSON.stringify(newState))
          return newState

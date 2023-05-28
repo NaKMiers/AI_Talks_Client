@@ -24,7 +24,6 @@ function App() {
       const getUserData = async () => {
          try {
             const res = await userApi.getUserData(user._id)
-            console.log('res-user-data: ', res.data)
             dispatch(userAction.setUserData(res.data))
          } catch (err) {
             console.log(err)

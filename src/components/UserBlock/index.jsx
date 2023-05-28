@@ -31,7 +31,6 @@ function UserBlock() {
    const handleChangeAvatar = useCallback(
       async e => {
          const file = e.target.files[0]
-         console.log(file)
          if (!file.type.startsWith('image')) {
             setError('This is not an image.')
             return
